@@ -1,0 +1,21 @@
+@import "../../global.scss";
+
+.button-container {
+  text-align: center;
+}
+
+button {
+  width: 111px;
+  height: 30px;
+  background-color: $primary-color;
+  border-radius: 6px;
+  border: solid $primary-color;
+  color: $light;
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 4px 4px 0px $light;
+    transition: 0.3s;
+  }
+}

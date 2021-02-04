@@ -1,0 +1,74 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400&display=swap");
+
+// Colors
+$primary-color: #268da4;
+$secondary-color: #a42631;
+$light: #ecf1f4;
+$dark-violet: #340332;
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
+  background-image: linear-gradient(
+    180deg,
+    $secondary-color 0%,
+    $dark-violet 100%
+  );
+  color: $light;
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+// Typography
+h1 {
+  //styleName: Title / Header 1;
+  font-family: Work Sans;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 75px;
+  letter-spacing: -0.02em;
+  // text-align: left;
+}
+
+h2 {
+  //styleName: H2;
+  font-family: Work Sans;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.02em;
+  // text-align: left;
+}
+
+h3 {
+  //styleName: Header 3;
+  font-family: Work Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  // text-align: left;
+}
+
+.small-text {
+  //styleName: Small;
+  font-family: Work Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: center;
+}
