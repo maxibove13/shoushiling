@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await fetch("http://localhost:5000/users", {
+      const res = await fetch("https://shoushilingapi.herokuapp.com/users", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
