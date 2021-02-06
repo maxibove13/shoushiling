@@ -8,7 +8,7 @@ import logo from "../../utilities/icons/shoushiling-logo.png";
 const Nav = () => {
   return (
     <header className="nav-bar">
-      <Link className="link" to="/">
+      <Link to="/">
         <img src={logo} alt="shoushiling-logo" />
       </Link>
     </header>

@@ -1,11 +1,13 @@
 // Dependencies
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 //Components
 import { Button } from "../../components";
 
 // Assets
 import "./styles.scss";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const Login = () => {
   const [userData, setUserData] = useState([]);
@@ -27,11 +29,40 @@ const Login = () => {
     fetchUser();
   }, []);
 
+  console.log(userData);
+
   return (
     <div>
-      <h2>Shoushiling</h2>
-      <h3>Hello {userData}</h3>
-      <Button />
+      <div className="title-container">
+        <h2>Shoushiling</h2>
+        <h3>Piedra, papel y tijera</h3>
+      </div>
+      <form>
+        <label className="small-text">
+          Email <input type="text" name="email" />
+        </label>
+        <label className="small-text">
+          Contraseña <input type="text" name="password" />
+        </label>
+        <Link to="/login/forgot" />
+        <p className="small-text forgot-pass">¿Olvidaste tu contraseña?</p>
+        <Link />
+      </form>
+
+      <div className="buttons-container">
+        <Button text={"Iniciar sesión"} />
+        <Button
+          buttonVariant={"button-google"}
+          text={"Iniciar sesión con Google"}
+          iconButton={faGoogle}
+        />
+      </div>
+      <div className="register-button-container">
+        <h3>¿No tienes cuenta?</h3>
+        <div className="buttons-container">
+          <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -6,9 +6,19 @@ $primary-color: #268da4;
 $secondary-color: #a42631;
 $light: #ecf1f4;
 $dark-violet: #340332;
+$dark: #0e0e2c;
+$gray: #999cba;
+
+// Devices widths
+$mobile-width: 320px;
+$max-mobileElement-width: 288px;
+
+// Breakpoints
+$mobile-breakpoint: 352px;
 
 html {
   height: 100%;
+  box-sizing: border-box;
 }
 
 body {
@@ -45,19 +55,21 @@ h2 {
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
-  line-height: 47px;
   letter-spacing: -0.02em;
+  line-height: 47px;
+  margin: 0;
   // text-align: left;
 }
 
 h3 {
   //styleName: Header 3;
   font-family: Work Sans;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.02em;
+  margin: 0;
   // text-align: left;
 }
 
@@ -66,8 +78,16 @@ h3 {
   font-family: Work Sans;
   font-size: 14px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   line-height: 20px;
   letter-spacing: 0px;
   text-align: center;
+}
+
+h1,
+h2,
+h3,
+p,
+.small-text {
+  cursor: default;
 }

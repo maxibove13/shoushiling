@@ -1,5 +1,80 @@
+@import "../../global.scss";
+
 h1,
 h2,
 h3 {
   text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 16px;
+  max-width: $mobile-width;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+}
+
+.register-button-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+
+  h3 {
+    margin-bottom: 8px;
+  }
+}
+
+.forgot-pass {
+  margin: 0;
+  text-align: right;
+  text-decoration: underline;
+  margin-top: -2px;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+  max-width: $mobile-width;
+  margin-bottom: 24px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin: 6px 0;
+    text-align: left !important;
+
+    * {
+      background-color: $light;
+      border-radius: 6px;
+      border: 1px solid $primary-color;
+      box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+      font-family: "Work Sans", sans-serif;
+      height: 20px;
+      margin-top: 2px;
+      padding: 4px 8px;
+
+      &:hover,
+      &:focus {
+        box-shadow: inset 0px 0px 0px 2px $primary-color;
+        outline: none;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $mobile-breakpoint) {
+  form {
+    margin: auto;
+  }
 }

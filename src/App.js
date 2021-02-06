@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Pages
-import { Login, Play } from "./pages";
+import { ForgottenPassword, Login, Play } from "./pages";
 
 // Components
 import { Nav } from "./components";
@@ -24,6 +24,9 @@ function App() {
           </Route>
           <Route path="/" exact>
             <Login />
+          </Route>
+          <Route path="/login/forgot" exact>
+            <ForgottenPassword />
           </Route>
         </Switch>
       </div>

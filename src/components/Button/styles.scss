@@ -5,17 +5,34 @@
 }
 
 button {
-  width: 111px;
-  height: 30px;
   background-color: $primary-color;
   border-radius: 6px;
   border: solid $primary-color;
   color: $light;
   transition: 0.3s;
-  cursor: pointer;
+  cursor: pointer !important;
+  padding: 4px 16px;
+  margin-bottom: 8px;
+  width: 100%;
+  //box-shadow: 2px 2px 2px $gray;
 
   &:hover {
-    box-shadow: 4px 4px 0px $light;
+    box-shadow: 3px 3px 0px $light;
     transition: 0.3s;
   }
+}
+
+.button-google {
+  background-color: $light;
+  color: $dark;
+  border: solid $dark;
+}
+
+.button-secondary {
+  background-color: $light;
+  color: $primary-color;
+}
+
+.fontawesome-icon {
+  margin-right: 8px;
 }
