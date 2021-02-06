@@ -57,11 +57,9 @@ const Login = () => {
           iconButton={faGoogle}
         />
       </div>
-      <div className="register-button-container">
+      <div className="buttons-container ">
         <h3>¿No tienes cuenta?</h3>
-        <div className="buttons-container">
-          <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
-        </div>
+        <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
       </div>
     </div>
   );
