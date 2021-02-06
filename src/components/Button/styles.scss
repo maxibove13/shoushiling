@@ -7,7 +7,7 @@
 button {
   background-color: $primary-color;
   border-radius: 6px;
-  border: solid $primary-color;
+  border: solid $light;
   color: $light;
   transition: 0.3s;
   cursor: pointer !important;
@@ -31,6 +31,7 @@ button {
 .button-secondary {
   background-color: $light;
   color: $primary-color;
+  border: solid $primary-color;
 }
 
 .fontawesome-icon {
