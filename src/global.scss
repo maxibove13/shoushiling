@@ -8,6 +8,7 @@ $light: #ecf1f4;
 $dark-violet: #340332;
 $dark: #0e0e2c;
 $gray: #999cba;
+$error: #fa1e00;
 
 // Devices widths
 $mobile-width: 320px;
@@ -80,6 +81,17 @@ h3 {
   font-style: normal;
   font-weight: bold;
   line-height: 20px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+.smallest {
+  //styleName: Smallest;
+  font-family: Work Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
   letter-spacing: 0px;
   text-align: center;
 }
