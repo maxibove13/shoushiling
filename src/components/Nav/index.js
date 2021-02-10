@@ -42,7 +42,7 @@ const Nav = () => {
       </header>
       <nav>
         <div>
-          {menu && state.isAuthenticated == true ? (
+          {menu && state.isAuthenticated === true ? (
             <h3 onClick={() => dispatch({ type: "LOGOUT" })}>Logout</h3>
           ) : (
             ""
