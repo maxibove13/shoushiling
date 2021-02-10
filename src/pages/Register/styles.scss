@@ -1,0 +1,29 @@
+@import "../../global.scss";
+
+div {
+  div {
+    h2 {
+      text-align: left;
+      margin-left: 16px;
+    }
+  }
+}
+
+.already-have-account {
+  color: $light;
+  cursor: pointer;
+  margin-top: -4px;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.succesfull {
+  color: $success;
+}
+
+@media screen and (min-width: $mobile-breakpoint) {
+  h2 {
+    text-align: center !important;
+    margin-left: 0 !important;
+  }
+}

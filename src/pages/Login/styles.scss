@@ -6,6 +6,13 @@ h3 {
   text-align: center;
 }
 
+.main-title {
+  h2 {
+    text-align: center;
+    margin-left: 0;
+  }
+}
+
 .buttons-container {
   display: flex;
   flex-direction: column;
@@ -41,16 +48,16 @@ h3 {
 .validation-error {
   p {
     text-align: center;
-    color: #fa1e00;
+    color: $error;
   }
 }
 
 .forgot-pass {
+  color: $light;
+  margin-top: -4px;
   margin: 0;
-  text-align: right;
+  text-align: right !important;
   text-decoration: underline;
-  margin-top: -8px;
-  cursor: pointer;
 }
 
 form {
@@ -63,7 +70,7 @@ form {
   label {
     display: flex;
     flex-direction: column;
-    margin: 16px 0;
+    margin: 8px 0;
     text-align: left !important;
 
     * {

@@ -1,6 +1,7 @@
 // Dependencies
+import dotenv from "dotenv";
 import { useState, useContext } from "react";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 //Components
@@ -39,21 +40,27 @@ const Login = () => {
     event.preventDefault(); // Prevent default form action
 
     // Frontend validations
-    if (userData.email !== "" || userData.password !== "") {
-      if (!userData.email.includes("@")) {
-        userData.validationError = "Email inválido";
-      } else if (userData.password.length < 4) {
-        console.log(
-          "La contraseña debe tener más de 4 caracteres alfanuméricos"
-        );
-      } else {
-        // Notify that isSubmitting
-        setUserData({
-          ...userData,
-          isSubmitting: true,
-          validationError: null,
-        });
-        fetch(" http://localhost:5000/login", {
+    if (!userData.email.includes("@")) {
+      setUserData({
+        ...userData,
+        isSubmitting: false,
+        validationError: "Email inválido",
+      });
+    } else {
+      // Notify that is about to submit
+      setUserData({
+        ...userData,
+        isSubmitting: true,
+        validationError: null,
+      });
+
+      //request a post petition to the /login endpoint of the API
+      console.log(
+        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/login`
+      );
+      fetch(
+        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/login`,
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -62,63 +69,42 @@ const Login = () => {
             email: userData.email,
             password: userData.password,
           }),
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw res;
         })
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            }
-            throw res;
-          })
-          .then((userData) => {
-            dispatch({
-              type: "LOGIN",
-              payload: userData,
-            });
-          })
-          .catch((error) => {
+        .then((userData) => {
+          dispatch({
+            type: "LOGIN",
+            payload: userData,
+          });
+        })
+        .catch((error) => {
+          if (error.status === 401) {
             setUserData({
               ...userData,
               isSubmitting: false,
-              validationError: "Email o password incorrectos",
+              validationError: "Credenciales inválidas",
             });
-          });
-        // const fetchUser = async () => {
-        //   const res = await fetch("http://localhost:5000/login", {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //       email: userData.email,
-        //       password: userData.password,
-        //     }),
-        //   });
-        //   if (!res.ok) {
-        //     setUserData({
-        //       ...userData,
-        //       isSubmitting: false,
-        //       errorValidation: "Error al conectarse con el servidor",
-        //     });
-        //     //throw new Error("Error fetching the API");
-        //   } else {
-        //     const userData = await res.json();
-        //   }
-        // };
-        // fetchUser();
-        setUserData({
-          ...userData,
-          isSubmitting: false,
+          } else {
+            setUserData({
+              ...userData,
+              isSubmitting: false,
+              validationError: "Error inesperado",
+            });
+            console.log(error);
+          }
         });
-        //console.log(userData);
-      }
-    } else {
-      console.log("Ingrese email y contraseña");
     }
   };
 
   return (
     <div>
-      <div className="title-container">
+      <div className="title-container main-title">
         <h2>Shoushiling</h2>
         <h3>Piedra, papel y tijera</h3>
       </div>
@@ -144,7 +130,9 @@ const Login = () => {
             id="password"
           />
         </label>
-        <p className="small-text forgot-pass">¿Olvidaste tu contraseña?</p>
+        <Link to="login/forgot" className="link">
+          <p className="small-text forgot-pass">¿Olvidaste tu contraseña?</p>
+        </Link>
       </form>
       <div className="validation-error small-text">
         <p>{userData.validationError}</p>
@@ -174,7 +162,9 @@ const Login = () => {
       </div>
       <div className="buttons-container">
         <h3>¿No tienes cuenta?</h3>
-        <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
+        <Link to="/register">
+          <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
+        </Link>
       </div>
     </div>
   );

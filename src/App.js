@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Pages
-import { UseEffectDemo, Home, ForgottenPassword, Login, Play } from "./pages";
+import { Home, ForgottenPassword, Login, Register, Play } from "./pages";
 
 // Components
 import { Nav } from "./components";
@@ -94,6 +94,11 @@ function App() {
           </Route>
           <Route path="/home" exact>
             <Home />
+          </Route>
+          <Route path="/register" exact>
+            <AuthContext.Provider value={{ dispatch }}>
+              <Register />
+            </AuthContext.Provider>
           </Route>
         </Switch>
       </div>

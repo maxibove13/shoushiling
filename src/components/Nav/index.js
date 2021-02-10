@@ -18,7 +18,6 @@ const Nav = () => {
   const initialMenuState = false;
 
   const [menu, setMenu] = useState(initialMenuState);
-  console.log("render");
 
   useEffect(() => {
     setMenu(false);
