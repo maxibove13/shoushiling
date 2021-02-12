@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 // Components
-import { Button } from "../../components";
+//import { Button } from "../../components";
 
 // Assets
 import "./styles.scss";
@@ -46,6 +46,12 @@ const Register = () => {
         isSubmitting: false,
         validationError: "Email inválido",
       });
+    } else if (/\s/.test(userData.name)) {
+      setUserData({
+        ...userData,
+        isSubmitting: false,
+        validationError: "El nombre no puede contener espacios en blanco",
+      });
     } else if (userData.name.length < 3) {
       setUserData({
         ...userData,
@@ -65,6 +71,12 @@ const Register = () => {
         validationError: "La contraseñas no coinciden",
       });
     } else {
+      // Notify that is about to submit
+      setUserData({
+        ...userData,
+        isSubmitting: true,
+        validationError: null,
+      });
       // Register the user or display the API errors
       console.log(
         `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/register`
@@ -130,7 +142,7 @@ const Register = () => {
 
       <form onSubmit={handleFormSubmit} id="registerForm">
         <label className="small-text">
-          Nombre
+          Nombre o nickname
           <input
             type="text"
             value={userData.name}

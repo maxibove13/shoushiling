@@ -1,0 +1,12 @@
+.chooseOponent-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 12px;
+  border-bottom: solid white 0.5px;
+
+  button {
+    width: 82px;
+    height: 30px;
+  }
+}

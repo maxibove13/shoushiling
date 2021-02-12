@@ -3,16 +3,18 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Pages
-import { Home, ForgottenPassword, Login, Register, Play } from "./pages";
+import { Home, Login, Register } from "./pages";
 
 // Components
-import { Nav } from "./components";
+import { Nav, ChooseOponent, Match } from "./components";
 
 export const AuthContext = React.createContext();
 
 const initialState = {
   isAuthenticated: false,
   userData: null,
+  setPage: "Home",
+  id_oponent: null,
 };
 
 const reducer = (state, action) => {
@@ -43,8 +45,24 @@ const reducer = (state, action) => {
         userData: null,
         token: null,
       };
+    case "CHOOSING_OPONENT":
+      return {
+        ...state,
+        setPage: "ChooseOponent",
+      };
     default:
       return state;
+    case "GO_HOME":
+      return {
+        ...state,
+        setPage: "Home",
+      };
+    case "MATCH":
+      return {
+        ...state,
+        setPage: "Match",
+        id_oponent: action.payload,
+      };
   }
 };
 
@@ -71,37 +89,26 @@ function App() {
     <Router>
       <AuthContext.Provider value={{ state, dispatch }}>
         <Nav />
-      </AuthContext.Provider>
+        <div className="App">
+          <Switch>
+            <Route exact path="/">
+              {!state.isAuthenticated ? (
+                <Login />
+              ) : state.setPage === "ChooseOponent" ? (
+                <ChooseOponent />
+              ) : state.setPage === "Match" ? (
+                <Match />
+              ) : (
+                <Home />
+              )}
+            </Route>
 
-      <div className="App">
-        <Switch>
-          {/* <Route path="/login" exact>
-            <Login />
-          </Route>
-          <Route path="/home" exact>
-            <Home />
-          </Route> */}
-          <Route path="/play" exact>
-            <Play />
-          </Route>
-          <Route path="/" exact>
-            <AuthContext.Provider value={{ state, dispatch }}>
-              {!state.isAuthenticated ? <Login /> : <Home />}
-            </AuthContext.Provider>
-          </Route>
-          <Route path="/login/forgot" exact>
-            <ForgottenPassword />
-          </Route>
-          <Route path="/home" exact>
-            <Home />
-          </Route>
-          <Route path="/register" exact>
-            <AuthContext.Provider value={{ dispatch }}>
+            <Route path="/register" exact>
               <Register />
-            </AuthContext.Provider>
-          </Route>
-        </Switch>
-      </div>
+            </Route>
+          </Switch>
+        </div>
+      </AuthContext.Provider>
     </Router>
   );
 }

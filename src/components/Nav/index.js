@@ -1,6 +1,5 @@
 //Dependencies
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,15 +26,19 @@ const Nav = () => {
     setMenu(!menu);
   };
 
+  const handleLogoClick = () => {
+    dispatch({
+      type: "GO_HOME",
+    });
+  };
+
   return (
     <>
       <header className="nav-bar">
         <div className="icons-header">
           <FontAwesomeIcon icon={faBars} onClick={showMenu} />
         </div>
-        <Link to="/">
-          <img src={logo} alt="shoushiling-logo" />
-        </Link>
+        <img onClick={handleLogoClick} src={logo} alt="shoushiling-logo" />
         <div className="icons-header">
           <FontAwesomeIcon icon={faCogs} className="disabled" />
         </div>
