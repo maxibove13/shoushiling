@@ -43,9 +43,9 @@ const reducer = (localState, action) => {
 
 const ChooseOponent = () => {
   const [localState, dispatch] = useReducer(reducer, initialLocalState);
-  const { dispatch: appDispatch } = useContext(AuthContext);
+  const { state: authState, dispatch: appDispatch } = useContext(AuthContext);
 
-  // Execute at first render & when the token state is changed.
+  // Execute at first render
   useEffect(() => {
     // Notify is about to fetch
     dispatch({
@@ -82,7 +82,7 @@ const ChooseOponent = () => {
   const fromChildCallbackFunction = (saluteFromChild) => {
     //console.log(saluteFromChild);
     appDispatch({
-      type: "MATCH",
+      type: "CREATE_MATCH",
       payload: saluteFromChild,
     });
   };
@@ -95,13 +95,18 @@ const ChooseOponent = () => {
           ? "Cargando"
           : localState.hasError
           ? "Has error"
-          : localState.users.map((user) => (
-              <OponentRow
-                key={user._id}
-                toParent={fromChildCallbackFunction}
-                user={user}
-              ></OponentRow>
-            ))}
+          : localState.users.map((user) => {
+              // Map only if it is not the own user
+              if (user._id !== authState.userData._id) {
+                return (
+                  <OponentRow
+                    key={user._id}
+                    toParent={fromChildCallbackFunction}
+                    user={user}
+                  ></OponentRow>
+                );
+              }
+            })}
       </div>
     </div>
   );

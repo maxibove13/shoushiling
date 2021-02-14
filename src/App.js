@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Home, Login, Register } from "./pages";
 
 // Components
-import { Nav, ChooseOponent, Match } from "./components";
+import { Nav, ChooseOponent, CreateMatch, Match } from "./components";
 
 export const AuthContext = React.createContext();
 
@@ -15,20 +15,15 @@ const initialState = {
   userData: null,
   setPage: "Home",
   id_oponent: null,
+  match: {},
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
       // action.payload contains the exact object delivered by the API, and the name of that object is userFound
-      localStorage.setItem(
-        "userData",
-        JSON.stringify(action.payload.userFound)
-      );
-      localStorage.setItem(
-        "token",
-        JSON.stringify(action.payload.userFound.token)
-      );
+      localStorage.setItem("userData", JSON.stringify(action.payload.userFound));
+      localStorage.setItem("token", JSON.stringify(action.payload.userFound.token));
 
       return {
         ...state,
@@ -50,19 +45,26 @@ const reducer = (state, action) => {
         ...state,
         setPage: "ChooseOponent",
       };
-    default:
-      return state;
+
     case "GO_HOME":
       return {
         ...state,
         setPage: "Home",
       };
-    case "MATCH":
+    case "CREATE_MATCH":
+      return {
+        ...state,
+        setPage: "CreateMatch",
+        id_oponent: action.payload,
+      };
+    case "RESUME_MATCH":
       return {
         ...state,
         setPage: "Match",
-        id_oponent: action.payload,
+        match: action.payload,
       };
+    default:
+      return state;
   }
 };
 
@@ -96,6 +98,8 @@ function App() {
                 <Login />
               ) : state.setPage === "ChooseOponent" ? (
                 <ChooseOponent />
+              ) : state.setPage === "CreateMatch" ? (
+                <CreateMatch />
               ) : state.setPage === "Match" ? (
                 <Match />
               ) : (

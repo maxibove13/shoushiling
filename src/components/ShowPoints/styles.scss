@@ -1,0 +1,11 @@
+.show-points {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  margin: 0 64px;
+
+  .div {
+    display: flex;
+    flex-direction: column;
+  }
+}

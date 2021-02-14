@@ -1,7 +1,10 @@
 // Dependencies
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 import { AuthContext } from "../../App";
+
+// Components
+import { UsersMatches } from "../../components";
 
 // Assets
 import "./styles.scss";
@@ -16,14 +19,18 @@ const Home = () => {
   };
 
   return (
-    <div className="title-container">
-      <h2 className="welcome">Hola {state.userData.name}</h2>
-      <div className="buttons-container">
-        <div className="button-container">
-          <button onClick={handleNewMatch}>Nueva Partida</button>
+    <>
+      <div className="title-container">
+        <h2 className="welcome">Hola {state.userData.name}</h2>
+        <div className="buttons-container">
+          <div className="button-container">
+            <button onClick={handleNewMatch}>Nueva Partida</button>
+          </div>
         </div>
       </div>
-    </div>
+
+      <UsersMatches />
+    </>
   );
 };
 
