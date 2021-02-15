@@ -11,3 +11,4 @@ export { default as Match } from "./Match";
 export { default as ChooseMove } from "./ChooseMove";
 export { default as ShowMoves } from "./ShowMoves";
 export { default as ShowPoints } from "./ShowPoints";
+export { default as MoveIconContainer } from "./MoveIconContainer";

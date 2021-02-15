@@ -106,6 +106,7 @@ const ChooseOponent = () => {
                   ></OponentRow>
                 );
               }
+              return null;
             })}
       </div>
     </div>

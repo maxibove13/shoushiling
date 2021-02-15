@@ -1,5 +1,8 @@
 //Dependencies
 
+// Componets
+import { MoveIconContainer } from "../../components";
+
 // Assets
 import "./styles.scss";
 
@@ -7,8 +10,9 @@ const ShowMoves = ({ moves }) => {
   return (
     <>
       <div className="show-move">
-        <div>{moves[0]}</div>
-        <div>{!moves[0] ? "waiting" : moves[0]}</div>
+        <MoveIconContainer iconType={moves[0]} />
+        <h3>vs</h3>
+        <MoveIconContainer iconType={moves[1]} />
       </div>
     </>
   );

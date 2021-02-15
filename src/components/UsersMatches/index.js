@@ -112,6 +112,7 @@ const UsersMatches = () => {
         <>
           <div className="table activeMatches">
             <h3>Partidas en curso</h3>
+            {console.log(authState.userData._id)}
             {localState.matches.map((match) => {
               if (match.state === "waitingApproval" || match.state === "playing") {
                 return (
@@ -123,6 +124,7 @@ const UsersMatches = () => {
                   />
                 );
               }
+              return null;
             })}
           </div>
           <div className="table finishedMatches">
@@ -131,6 +133,7 @@ const UsersMatches = () => {
               if (match.state === "finished") {
                 return <MatchRow key={match._id} match={match} token={authState.token} />;
               }
+              return null;
             })}
           </div>
         </>

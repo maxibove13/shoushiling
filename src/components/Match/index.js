@@ -10,7 +10,6 @@ import { ChooseMove, ShowMoves, ShowPoints } from "../../components";
 import "./styles.scss";
 
 const initialLocalState = {
-  userIsHost: true,
   oponentName: null,
   chosenMove: null,
   isSubmitting: false,
@@ -26,23 +25,19 @@ const Match = () => {
     return initialLocalState;
   });
 
-  // console.log(state.match);
-  console.log(state);
   const pointsPlayer_1 = state.match.player_1.points;
   const pointsPlayer_2 = state.match.player_2.points;
+  const userWins =
+    (pointsPlayer_1 > pointsPlayer_2 && state.userData._id === state.match.player_1.id_user) ||
+    (pointsPlayer_1 < pointsPlayer_2 && state.userData._id === state.match.player_2.id_user);
 
-  // Get oponent's name. I think it is easier to fetch it here rather than pass it up and down from <MatchRow/> that also fetches the oponent name.
+  //get oponents name
   useEffect(() => {
-    // To request the oponent name, first check if Oponent is player 1 or 2.
     let idOponent = state.match.player_2.id_user;
     if (state.userData._id === state.match.player_2.id_user) {
-      setLocalState({
-        ...localState,
-        userIsHost: false,
-        isSubmitting: true,
-      });
       idOponent = state.match.player_1.id_user;
     }
+
     console.log(
       `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/users/nameById`
     );
@@ -67,19 +62,10 @@ const Match = () => {
         }
       })
       .then((oponentName) => {
-        setLocalState({
-          ...localState,
-          oponentName: oponentName.name,
-          isSubmitting: false,
-        });
+        setLocalState({ ...localState, oponentName: oponentName.name });
       })
       .catch((err) => {
         console.log("err", err);
-        setLocalState({
-          ...localState,
-          isSubmitting: false,
-          hasError: true,
-        });
       });
   }, []);
 
@@ -87,10 +73,10 @@ const Match = () => {
   const renderMoves = () => {
     switch (state.match.state) {
       case "waitingApproval":
-        if (localState.userIsHost) {
+        if (state.userData._id === state.match.player_1.id_user) {
           if (state.match.games.length === 0) {
             return (
-              <>
+              <div className="renderMoves-container">
                 <h3>Que empiece el juego!</h3>
                 <h3>Elige tu jugada</h3>
                 {/* remember to update state to playing */}
@@ -103,20 +89,19 @@ const Match = () => {
                 >
                   Jugar
                 </button>
-              </>
+              </div>
             );
           } else {
-            console.log("here from match");
             return (
-              <>
+              <div className="renderMoves-container">
                 <h3>Esperando a que {localState.oponentName} acepte la partida</h3>
                 <button onClick={goHome}>Volver</button>
-              </>
+              </div>
             );
           }
         } else {
           return (
-            <>
+            <div className="renderMoves-container">
               <h3>Que empiece el juego!</h3>
               <h3>Elige tu jugada</h3>
               {/* remember to update state to playing */}
@@ -128,50 +113,25 @@ const Match = () => {
               >
                 Jugar
               </button>
-            </>
+            </div>
           );
         }
         break;
       case "playing":
         if (
-          (localState.userIsHost && !state.match.games[state.match.games.length - 1].wonBy) ||
-          (!localState.userIsHost && state.match.games[state.match.games.length - 1].wonBy)
+          // If player_1 && even game || if player_2 && odd game (cause player_1 starts)
+          (state.userData._id === state.match.player_1.id_user &&
+            state.match.games.length % 2 === 0) ||
+          (state.userData._id === state.match.player_2.id_user &&
+            state.match.games.length % 2 === 1)
         ) {
-          return (
-            <>
-              <h3>Esperando jugada de {localState.oponentName}</h3>
-              <ShowMoves
-                moves={[
-                  state.match.games[state.match.games.length - 1].movePlayer_1,
-                  state.match.games[state.match.games.length - 1].movePlayer_2,
-                ]}
-              />
-            </>
-          );
-        } else {
-          if (!localState.userKnowItsResult) {
+          // if game is incomplete move, if user already saw its result move.
+          if (
+            state.match.games[state.match.games.length - 1].wonBy === undefined ||
+            localState.userKnowItsResult
+          ) {
             return (
-              <>
-                {renderResultMatch()}
-                <ShowMoves
-                  moves={[
-                    state.match.games[state.match.games.length - 1].movePlayer_1,
-                    state.match.games[state.match.games.length - 1].movePlayer_2,
-                  ]}
-                />
-                <button
-                  onClic
-                  className={localState.chosenMove === null ? "disabled" : ""}
-                  disabled={localState.chosenMove === null}
-                  onClick={handleKeepPlaying}
-                >
-                  Jugar
-                </button>
-              </>
-            );
-          } else {
-            return (
-              <>
+              <div className="renderMoves-container">
                 <h3>Que siga el juego!</h3>
                 <h3>Elige tu jugada</h3>
                 {/* remember to update state to playing */}
@@ -183,22 +143,70 @@ const Match = () => {
                 >
                   Jugar
                 </button>
-              </>
+              </div>
+            );
+            // If game is complete, show results first
+          } else {
+            return (
+              <div className="renderMoves-container">
+                {renderResultMatch()}
+                <ShowMoves
+                  moves={
+                    state.userData._id === state.match.player_1.id_user
+                      ? [
+                          state.match.games[state.match.games.length - 1].movePlayer_1,
+                          state.match.games[state.match.games.length - 1].movePlayer_2,
+                        ]
+                      : [
+                          state.match.games[state.match.games.length - 1].movePlayer_2,
+                          state.match.games[state.match.games.length - 1].movePlayer_1,
+                        ]
+                  }
+                />
+                <button onClick={handleKeepPlaying}>Continuar</button>
+              </div>
             );
           }
+        } else {
+          return (
+            <div className="renderMoves-container">
+              <h3>Esperando jugada de {localState.oponentName}</h3>
+              <ShowMoves
+                moves={
+                  state.userData._id === state.match.player_1.id_user
+                    ? [
+                        state.match.games[state.match.games.length - 1].movePlayer_1,
+                        state.match.games[state.match.games.length - 1].movePlayer_2,
+                      ]
+                    : [
+                        state.match.games[state.match.games.length - 1].movePlayer_2,
+                        state.match.games[state.match.games.length - 1].movePlayer_1,
+                      ]
+                }
+              />
+              <button onClick={goHome}>Volver</button>
+            </div>
+          );
         }
         break;
       case "finished":
         return (
-          <>
+          <div className="renderMoves-container">
             {renderResultMatch()}
             <ShowMoves
-              moves={[
-                state.match.games[state.match.games.length - 1].movePlayer_1,
-                state.match.games[state.match.games.length - 1].movePlayer_2,
-              ]}
+              moves={
+                state.userData._id === state.match.player_1.id_user
+                  ? [
+                      state.match.games[state.match.games.length - 1].movePlayer_1,
+                      state.match.games[state.match.games.length - 1].movePlayer_2,
+                    ]
+                  : [
+                      state.match.games[state.match.games.length - 1].movePlayer_2,
+                      state.match.games[state.match.games.length - 1].movePlayer_1z,
+                    ]
+              }
             />
-          </>
+          </div>
         );
         break;
       default:
@@ -207,131 +215,14 @@ const Match = () => {
   };
 
   const submitMove = () => {
-    // save games in a new variable to later use
-    let gamesUpdated = state.match.games;
-
-    if (localState.userIsHost) {
-      // update the games array of match
-      gamesUpdated.push({
-        gameNumber: state.match.games.length + 1,
-        movePlayer_1: localState.chosenMove,
-      });
-
-      // fetch a put request to update the match
-      console.log(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches`
-      );
-      fetch(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches`,
-        {
-          method: "put",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: state.token,
-          },
-          body: JSON.stringify({
-            state: state.match.state,
-            _id: state.match._id,
-            player_1: {
-              id_user: state.match.player_1.id_user,
-              points: pointsPlayer_1,
-            },
-            player_2: {
-              id_user: state.match.player_2.id_user,
-              points: pointsPlayer_2,
-            },
-            games: gamesUpdated,
-          }),
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          throw res;
-        })
-        .then((match) => {
-          dispatch({
-            type: "RESUME_MATCH",
-            payload: match,
-          });
-        })
-        .catch((err) => {
-          setLocalState({
-            ...localState,
-            isSubmitting: false,
-            hasError: true,
-          });
-        });
+    if (state.match.games.length > 0) {
+      if (state.match.games[state.match.games.length - 1].wonBy === undefined) {
+        updateAndCloseGame();
+      } else {
+        pushNewGame();
+      }
     } else {
-      // user is player_2
-
-      // Check the winner of the game, return the winner
-      let wonBy = 0;
-      checkGameWinner(wonBy);
-
-      let updatedPointsPlayer_1 = pointsPlayer_1;
-      let updatedPointsPlayer_2 = pointsPlayer_2;
-      if (wonBy === 1) {
-        updatedPointsPlayer_1 = pointsPlayer_1 + 1;
-      } else if (wonBy === 2) {
-        updatedPointsPlayer_2 = pointsPlayer_2 + 1;
-      }
-
-      let updatedMatchState = state.match.state;
-      if (updatedPointsPlayer_1 > 1 || updatedPointsPlayer_2 > 1) {
-        updatedMatchState = "finished";
-      }
-
-      // update the last game according to selected move
-      gamesUpdated[state.match.games.length - 1].movePlayer_2 = localState.chosenMove;
-      gamesUpdated[state.match.games.length - 1].wonBy = wonBy;
-
-      console.log(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches`
-      );
-      fetch(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches`,
-        {
-          method: "put",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: state.token,
-          },
-          body: JSON.stringify({
-            state: updatedMatchState,
-            _id: state.match._id,
-            player_1: {
-              id_user: state.match.player_1.id_user,
-              points: updatedPointsPlayer_1,
-            },
-            player_2: {
-              id_user: state.match.player_2.id_user,
-              points: updatedPointsPlayer_2,
-            },
-            games: gamesUpdated,
-          }),
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          throw res;
-        })
-        .then((match) => {
-          dispatch({
-            type: "RESUME_MATCH",
-            payload: match,
-          });
-        })
-        .catch((err) => {
-          setLocalState({
-            ...localState,
-            isSubmitting: false,
-            hasError: true,
-          });
-        });
+      pushNewGame();
     }
   };
 
@@ -349,27 +240,165 @@ const Match = () => {
     });
   };
 
+  const pushNewGame = () => {
+    // define the body request to push a new game assuming user is player_1
+    let bodyReq = JSON.stringify({
+      _id: state.match._id,
+      games: [
+        {
+          gameNumber: state.match.games.length + 1,
+          movePlayer_1: localState.chosenMove,
+          movePlayer_2: "null",
+        },
+      ],
+    });
+
+    // if user is player_2, correct the bodyReq by updating movePlayer_2 instead of 1.
+    if (state.userData._id === state.match.player_2.id_user) {
+      bodyReq = JSON.stringify({
+        _id: state.match._id,
+        games: [
+          {
+            gameNumber: state.match.games.length + 1,
+            movePlayer_1: "null",
+            movePlayer_2: localState.chosenMove,
+          },
+        ],
+      });
+    }
+
+    console.log(
+      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/pushNewGame`
+    );
+    fetch(
+      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/pushNewGame`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: state.token,
+        },
+        body: bodyReq,
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw res;
+      })
+      .then((match) => {
+        dispatch({
+          type: "RESUME_MATCH",
+          payload: match,
+        });
+      })
+      .catch((err) => {
+        setLocalState({
+          ...localState,
+          isSubmitting: false,
+          hasError: true,
+        });
+      });
+  };
+
+  const updateAndCloseGame = () => {
+    let gameUpdated = state.match.games.slice(-1);
+    let wonBy = 0;
+
+    wonBy = checkGameWinner(wonBy);
+
+    // wonBy == 1 means that user wons. We have to determine if user is player_1 or 2.
+    let updatedPointsPlayer_1 = pointsPlayer_1;
+    let updatedPointsPlayer_2 = pointsPlayer_2;
+    if (wonBy > 0) {
+      if (
+        (wonBy === 1 && state.userData._id === state.match.player_1.id_user) ||
+        (wonBy === 2 && state.userData._id === state.match.player_2.id_user)
+      ) {
+        updatedPointsPlayer_1 = pointsPlayer_1 + 1;
+      } else {
+        updatedPointsPlayer_2 = pointsPlayer_2 + 1;
+      }
+    }
+
+    let updatedMatchState = "playing";
+    if (updatedPointsPlayer_1 > 1 || updatedPointsPlayer_2 > 1) {
+      updatedMatchState = "finished";
+    }
+
+    // if user is player_1 push the game with its move, else update movePlayer_2.
+    if (state.userData._id === state.match.player_1.id_user) {
+      gameUpdated[0].movePlayer_1 = localState.chosenMove;
+    } else {
+      gameUpdated[0].movePlayer_2 = localState.chosenMove;
+    }
+    gameUpdated[0].wonBy = wonBy;
+    console.log("wonBy", wonBy);
+    console.log(gameUpdated);
+
+    console.log(
+      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/updateMatch`
+    );
+    fetch(
+      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/updateMatch`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: state.token,
+        },
+        body: JSON.stringify({
+          state: updatedMatchState,
+          _id: state.match._id,
+          player_1: {
+            id_user: state.match.player_1.id_user,
+            points: updatedPointsPlayer_1,
+          },
+          player_2: {
+            id_user: state.match.player_2.id_user,
+            points: updatedPointsPlayer_2,
+          },
+          games: gameUpdated,
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw res;
+      })
+      .then((match) => {
+        dispatch({
+          type: "RESUME_MATCH",
+          payload: match,
+        });
+      })
+      .catch((err) => {
+        setLocalState({
+          ...localState,
+          isSubmitting: false,
+          hasError: true,
+        });
+      });
+  };
+
   const renderResultMatch = () => {
     if (state.match.state === "playing") {
-      if (pointsPlayer_1 !== pointsPlayer_2) {
+      if (state.match.games[state.match.games.length - 1].wonBy !== 0) {
         return (
-          <h3>
-            {(pointsPlayer_1 > pointsPlayer_2 && localState.userIsHost) ||
-            (pointsPlayer_1 < pointsPlayer_2 && !localState.userIsHost)
-              ? "Ganaste la jugada"
-              : "Perdiste la jugada"}
+          <h3 className={userWins ? "match-result win-match" : "match-result lose-match"}>
+            {userWins ? "Ganaste la jugada" : "Perdiste la jugada"}
           </h3>
         );
       } else {
-        return <h3>Empatan la jugada</h3>;
+        return <h3 className="match-result">Empatan la jugada</h3>;
       }
     } else {
       return (
-        <h3>
-          {(pointsPlayer_1 > pointsPlayer_2 && localState.userIsHost) ||
-          (pointsPlayer_1 < pointsPlayer_2 && !localState.userIsHost)
-            ? "Ganaste la partida!"
-            : "Perdiste la partida!"}
+        <h3 className={userWins ? "match-result win-match" : "match-result lose-match"}>
+          {userWins ? "Ganaste la partida!" : "Perdiste la partida!"}
         </h3>
       );
     }
@@ -382,33 +411,29 @@ const Match = () => {
   };
 
   const checkGameWinner = (wonBy) => {
+    let oponentMove = state.match.games[state.match.games.length - 1].movePlayer_2;
+    if (state.userData._id === state.match.player_2.id_user) {
+      oponentMove = state.match.games[state.match.games.length - 1].movePlayer_1;
+    }
+
     switch (true) {
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Rock" &&
-        localState.chosenMove === "Rock":
+      case oponentMove === "Rock" && localState.chosenMove === "Rock":
         return (wonBy = 0);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Rock" &&
-        localState.chosenMove === "Paper":
+      case oponentMove === "Rock" && localState.chosenMove === "Paper":
+        return (wonBy = 1);
+      case oponentMove === "Rock" && localState.chosenMove === "Scissor":
         return (wonBy = 2);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Rock" &&
-        localState.chosenMove === "Scissor":
-        return (wonBy = 1);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Paper" &&
-        localState.chosenMove === "Rock":
-        return (wonBy = 1);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Paper" &&
-        localState.chosenMove === "Paper":
+      case oponentMove === "Paper" && localState.chosenMove === "Rock":
+        return (wonBy = 2);
+      case oponentMove === "Paper" && localState.chosenMove === "Paper":
         return (wonBy = 0);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Paper" &&
-        localState.chosenMove === "Scissor":
+      case oponentMove === "Paper" && localState.chosenMove === "Scissor":
         return (wonBy = 1);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Scissor" &&
-        localState.chosenMove === "Rock":
+      case oponentMove === "Scissor" && localState.chosenMove === "Rock":
+        return (wonBy = 1);
+      case oponentMove === "Scissor" && localState.chosenMove === "Paper":
         return (wonBy = 2);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Scissor" &&
-        localState.chosenMove === "Paper":
-        return (wonBy = 1);
-      case state.match.games[state.match.games.length - 1].movePlayer_1 === "Scissor" &&
-        localState.chosenMove === "Scissor":
+      case oponentMove === "Scissor" && localState.chosenMove === "Scissor":
         return (wonBy = 0);
       default:
         return;
@@ -417,13 +442,17 @@ const Match = () => {
   // Different scenarios when clicking resume match or show button in home
 
   return (
-    <>
+    <div className="match">
       {renderMoves()}
       <ShowPoints
-        points={[pointsPlayer_1, pointsPlayer_2]}
+        points={
+          state.userData._id === state.match.player_1.id_user
+            ? [pointsPlayer_1, pointsPlayer_2]
+            : [pointsPlayer_2, pointsPlayer_1]
+        }
         names={[state.userData.name, localState.oponentName]}
       />
-    </>
+    </div>
   );
 };
 

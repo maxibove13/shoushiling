@@ -1,0 +1,24 @@
+@import "../../global.scss";
+
+.match {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.renderMoves-container {
+  margin-top: 32px;
+  margin-bottom: 64px;
+}
+
+.match-result {
+  font-weight: bold;
+}
+
+.win-match {
+  color: $success;
+}
+
+.lose-match {
+  color: $error;
+}
