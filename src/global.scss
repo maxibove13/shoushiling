@@ -106,6 +106,10 @@ p,
   cursor: default;
 }
 
+p {
+  font-size: 16px !important;
+}
+
 @media screen and (min-width: $mobile-breakpoint) {
   html,
   body {
