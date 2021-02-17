@@ -91,6 +91,7 @@ const UsersMatches = () => {
         }
       })
       .then((matches) => {
+        // This is not working.
         if (matches.status === 401) {
           dispatch({
             type: "LOGOUT",
@@ -108,7 +109,7 @@ const UsersMatches = () => {
           type: "FETCH_MATCHES_FAILURE",
         });
       });
-  }, []);
+  }, [authState, dispatch]);
 
   return (
     <>
@@ -122,7 +123,7 @@ const UsersMatches = () => {
           <div className="table activeMatches">
             <div className="table-header">
               <p>Oponente</p>
-              <p className="hide">Marcador</p>
+              <p>Marcador</p>
               <p className="hide-always">Jugadas</p>
             </div>
             {localState.matches.some((match) => {
@@ -145,8 +146,8 @@ const UsersMatches = () => {
               <p className="no-matches">No tienes partidas en curso</p>
             )}
           </div>
-          <h3>Histórico de partidas</h3>
-          <div className="table finishedMatches">
+          <h3>Ú partidas</h3>
+          <div className="table finished-matches">
             <div className="table-header">
               <p>Oponente</p>
               <p>Resultado</p>

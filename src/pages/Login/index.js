@@ -116,7 +116,7 @@ const Login = () => {
           Email
           <input
             type="text"
-            value={userData.email}
+            value={userData.email.toLowerCase()}
             onChange={handleInputChange}
             name="email"
             id="email"

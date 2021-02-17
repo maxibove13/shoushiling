@@ -34,9 +34,13 @@
   }
 }
 
-.hide {
-  opacity: 0;
+.finished-matches {
+  background: $secondary-color;
 }
+
+// .hide {
+//   opacity: 0;
+// }
 
 .hide-always {
   opacity: 0 !important;

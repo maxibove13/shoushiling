@@ -16,7 +16,7 @@ const OponentRow = ({ user, toParent }) => {
       <div className="chooseOponent-row">
         <p>{user.name}</p>
         <button onClick={handleClick} className="chooseOponent-button">
-          Elegir
+          Invitar
         </button>
       </div>
     </>

@@ -43,7 +43,7 @@ const Header = () => {
           <FontAwesomeIcon icon={faCogs} className="disabled" />
         </div>
       </header>
-      <nav className={menu && "show-nav"}>
+      <nav className={menu ? "show-nav" : undefined}>
         <div className="categories">
           <h2>Estadísticas</h2>
           <h2>Aprende</h2>

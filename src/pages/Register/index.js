@@ -1,6 +1,5 @@
 // Dependencies
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 // Components
@@ -150,10 +149,10 @@ const Register = () => {
 
       <form onSubmit={handleFormSubmit} id="registerForm">
         <label className="small-text">
-          Nombre o nickname
+          Alias
           <input
             type="text"
-            value={userData.name}
+            value={userData.name.toLowerCase()}
             onChange={handleInputChange}
             name="name"
             id="name"
@@ -163,7 +162,7 @@ const Register = () => {
           Email
           <input
             type="text"
-            value={userData.email}
+            value={userData.email.toLowerCase()}
             onChange={handleInputChange}
             name="email"
             id="email"

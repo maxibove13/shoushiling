@@ -1,14 +1,21 @@
 //Dependencies
 import { useState, useEffect, useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from "../../App";
 
 // Assets
 import "./styles.scss";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const MatchRow = ({ match, id_userMain, token }) => {
   const { dispatch } = useContext(AuthContext);
   const [oponentName, setOponentName] = useState(null);
+  // const [rejectedMatch, setRejectedMatch] = useState(false);
+
+  console.log("re-rendering <MatchRow/>", match.state);
 
   const handleResumeMatchClick = () => {
     dispatch({
@@ -53,7 +60,7 @@ const MatchRow = ({ match, id_userMain, token }) => {
       .catch((err) => {
         console.log("err", err);
       });
-  }, []);
+  }, [id_userMain, match, token]);
 
   const handleRejectMatchClick = () => {
     // if new match is rejected fetch to update match state to rejected
@@ -90,6 +97,8 @@ const MatchRow = ({ match, id_userMain, token }) => {
         throw res;
       })
       .then((match) => {
+        // setRejectedMatch(true);
+        console.log(match);
         dispatch({
           type: "GO_HOME",
           payload: match,
@@ -103,31 +112,32 @@ const MatchRow = ({ match, id_userMain, token }) => {
   };
 
   if (match.state === "waitingApproval") {
+    console.log(match.state);
     return (
       <>
         <div className="chooseOponent-row">
-          <div className="oponent-name-container">
+          <div className="oponent-name-container show-full-name">
             <p>{oponentName}</p>
           </div>
           {id_userMain === match.player_1.id_user ? (
             <>
-              <div className="points hide">
+              <div className="points">
                 <p>{match.player_1.points}</p>
                 <p>-</p>
                 <p>{match.player_2.points}</p>
               </div>
-              <button onClick={handleResumeMatchClick} className="btn-resume-match">
-                Reanudar
-              </button>
+              <div className="resume-match-icon-container">
+                <FontAwesomeIcon
+                  className="resume-match-icon"
+                  icon={faArrowRight}
+                  onClick={handleResumeMatchClick}
+                />
+              </div>
             </>
           ) : (
-            <div>
-              <button onClick={handleResumeMatchClick} className="chooseOponent-button">
-                Aceptar
-              </button>
-              <button onClick={handleRejectMatchClick} className="chooseOponent-button">
-                Rechazar
-              </button>
+            <div className="accept-reject-icons">
+              <FontAwesomeIcon icon={faCheck} onClick={handleResumeMatchClick} />
+              <FontAwesomeIcon icon={faTimes} onClick={handleRejectMatchClick} />
             </div>
           )}
         </div>
@@ -136,20 +146,29 @@ const MatchRow = ({ match, id_userMain, token }) => {
   } else {
     return (
       <div className="chooseOponent-row">
-        <p>{oponentName}</p>
-        <p>
-          {id_userMain === match.player_1.id_user
-            ? match.player_1.points
-            : match.player_2.points}
-        </p>
-        <p>
-          {id_userMain === match.player_1.id_user
-            ? match.player_2.points
-            : match.player_1.points}
-        </p>
-        <button onClick={handleResumeMatchClick} className="chooseOponent-button">
-          {match.state === "playing" ? "Reanudar" : "Mostrar"}
-        </button>
+        <div className="oponent-name-container">
+          <p>{oponentName}</p>
+        </div>
+        <div className="points">
+          <p>
+            {id_userMain === match.player_1.id_user
+              ? match.player_1.points
+              : match.player_2.points}
+          </p>
+          <p>-</p>
+          <p>
+            {id_userMain === match.player_1.id_user
+              ? match.player_2.points
+              : match.player_1.points}
+          </p>
+        </div>
+        <div className="resume-match-icon-container">
+          <FontAwesomeIcon
+            className="resume-match-icon"
+            icon={faArrowRight}
+            onClick={handleResumeMatchClick}
+          />
+        </div>
       </div>
     );
   }

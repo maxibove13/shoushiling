@@ -67,7 +67,14 @@ const Match = () => {
       .catch((err) => {
         console.log("err", err);
       });
-  }, []);
+  }, [
+    localState.oponentName,
+    localState.userKnowItsResult,
+    state.match.player_1,
+    state.match.player_2,
+    state.userData._id,
+    state.token,
+  ]);
 
   // render different scenarios
   const renderMoves = () => {
@@ -77,7 +84,7 @@ const Match = () => {
           if (state.match.games.length === 0) {
             return (
               <>
-                <h3>¡Qué comience el juego!</h3>
+                <h3>¡Que comience el juego!</h3>
                 <h3>Elige tu jugada</h3>
                 <ChooseMove chosenMove={handleChosenMove} />
 
@@ -93,7 +100,7 @@ const Match = () => {
           } else {
             return (
               <>
-                <h3>Esperando a que {localState.oponentName} acepte la partida</h3>
+                <h3>Esperando respuesta de {localState.oponentName}</h3>
                 <button className="btn-continue" onClick={goHome}>
                   Volver
                 </button>
@@ -103,7 +110,7 @@ const Match = () => {
         } else {
           return (
             <>
-              <h3>¡Qué comience el juego!</h3>
+              <h3>¡Que comience el juego!</h3>
               <h3>Elige tu jugada</h3>
               {/* remember to update state to playing */}
               <ChooseMove chosenMove={handleChosenMove} />

@@ -1,18 +1,48 @@
 .chooseOponent-row {
   .oponent-name-container {
-    width: 96px;
+    width: 33%;
+    overflow: hidden;
+
+    &:hover {
+      overflow: visible;
+
+      p {
+        word-break: break-all;
+      }
+    }
+  }
+
+  .accept-reject-icons {
+    display: flex;
+    justify-content: right;
+    width: 33%;
+
+    svg {
+      margin-left: 16px;
+      transition: all 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.4);
+      }
+    }
+  }
+
+  .resume-match-icon-container {
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.6);
+    }
   }
 
   .points {
     display: flex;
+    margin-right: 66px;
 
     p {
       margin: 0 4px;
     }
-  }
-
-  .btn-resume-match {
-    width: 88px;
-    padding: 4px 8px;
   }
 }
