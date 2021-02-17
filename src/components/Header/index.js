@@ -44,7 +44,7 @@ const Header = () => {
         </div>
       </header>
       <nav className={menu ? "show-nav" : undefined}>
-        <div className="categories">
+        <div className="categories disabled">
           <h2>Estadísticas</h2>
           <h2>Aprende</h2>
         </div>

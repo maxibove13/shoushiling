@@ -143,7 +143,7 @@ const Register = () => {
 
   return !userData.registered ? (
     <div>
-      <div className="title-container">
+      <div className="title-container title-register">
         <h2>Registro</h2>
       </div>
 

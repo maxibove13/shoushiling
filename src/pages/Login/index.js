@@ -132,9 +132,7 @@ const Login = () => {
             id="password"
           />
         </label>
-        <Link to="login/forgot" className="link">
-          <p className="small-text forgot-pass">¿Olvidaste tu contraseña?</p>
-        </Link>
+        <p className="small-text forgot-pass disabled">¿Olvidaste tu contraseña?</p>
       </form>
       <div className="validation-error small-text">
         <p>{userData.validationError}</p>

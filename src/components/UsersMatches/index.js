@@ -146,12 +146,12 @@ const UsersMatches = () => {
               <p className="no-matches">No tienes partidas en curso</p>
             )}
           </div>
-          <h3>Ú partidas</h3>
+          <h3>Últimas partidas</h3>
           <div className="table finished-matches">
             <div className="table-header">
               <p>Oponente</p>
               <p>Resultado</p>
-              <p>Jugadas</p>
+              <p className="hide-always">Jugadas</p>
             </div>
             {localState.matches.some((match) => {
               return match.state === "finished";
