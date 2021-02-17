@@ -14,9 +14,10 @@ $success: #1aa070;
 // Devices widths
 $mobile-width: 320px;
 $max-mobileElement-width: 288px;
+$max-width-component: 1240px;
 
 // Breakpoints
-$mobile-breakpoint: 352px;
+$mobile-breakpoint: 480px;
 
 html,
 body {
