@@ -10,8 +10,8 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const MatchRow = ({ match, id_userMain, token }) => {
-  const { dispatch } = useContext(AuthContext);
+const MatchRow = ({ match }) => {
+  const { state, dispatch } = useContext(AuthContext);
   const [oponentName, setOponentName] = useState(null);
   // const [rejectedMatch, setRejectedMatch] = useState(false);
 
@@ -27,9 +27,10 @@ const MatchRow = ({ match, id_userMain, token }) => {
   // get oponent's name
   useEffect(() => {
     let idOponent = match.player_2.id_user;
-    if (id_userMain === match.player_2.id_user) {
+    if (state.userData._id === match.player_2.id_user) {
       idOponent = match.player_1.id_user;
     }
+    console.log("here", match.player_1.id_user, state.userData._id, idOponent);
 
     console.log(
       `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/users/nameById`
@@ -40,7 +41,7 @@ const MatchRow = ({ match, id_userMain, token }) => {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: state.token,
         },
         body: JSON.stringify({
           id_user: idOponent,
@@ -60,7 +61,7 @@ const MatchRow = ({ match, id_userMain, token }) => {
       .catch((err) => {
         console.log("err", err);
       });
-  }, [id_userMain, match, token]);
+  }, [state.userData._id, match, state.token]);
 
   const handleRejectMatchClick = () => {
     // if new match is rejected fetch to update match state to rejected
@@ -73,7 +74,7 @@ const MatchRow = ({ match, id_userMain, token }) => {
         method: "put",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: state.token,
         },
         body: JSON.stringify({
           state: "rejected",
@@ -111,15 +112,21 @@ const MatchRow = ({ match, id_userMain, token }) => {
       });
   };
 
+  const showOponentName = () => {
+    return (
+      <div className="oponent-name-container show-full-name">
+        <p>{oponentName}</p>
+      </div>
+    );
+  };
+
   if (match.state === "waitingApproval") {
     console.log(match.state);
     return (
       <>
         <div className="chooseOponent-row">
-          <div className="oponent-name-container show-full-name">
-            <p>{oponentName}</p>
-          </div>
-          {id_userMain === match.player_1.id_user ? (
+          {showOponentName()}
+          {state.userData._id === match.player_1.id_user ? (
             <>
               <div className="points">
                 <p>{match.player_1.points}</p>
@@ -146,18 +153,16 @@ const MatchRow = ({ match, id_userMain, token }) => {
   } else {
     return (
       <div className="chooseOponent-row">
-        <div className="oponent-name-container">
-          <p>{oponentName}</p>
-        </div>
+        {showOponentName()}
         <div className="points">
           <p>
-            {id_userMain === match.player_1.id_user
+            {state.userData._id === match.player_1.id_user
               ? match.player_1.points
               : match.player_2.points}
           </p>
           <p>-</p>
           <p>
-            {id_userMain === match.player_1.id_user
+            {state.userData._id === match.player_1.id_user
               ? match.player_2.points
               : match.player_1.points}
           </p>

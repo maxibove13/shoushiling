@@ -131,14 +131,7 @@ const UsersMatches = () => {
             }) ? (
               localState.matches.map((match) => {
                 if (match.state === "waitingApproval" || match.state === "playing") {
-                  return (
-                    <MatchRow
-                      key={match._id}
-                      match={match}
-                      id_userMain={authState.userData._id}
-                      token={authState.token}
-                    />
-                  );
+                  return <MatchRow key={match._id} match={match} />;
                 }
                 return null;
               })
@@ -158,7 +151,7 @@ const UsersMatches = () => {
             }) ? (
               localState.matches.map((match) => {
                 if (match.state === "finished") {
-                  return <MatchRow key={match._id} match={match} token={authState.token} />;
+                  return <MatchRow key={match._id} match={match} />;
                 }
                 return null;
               })
