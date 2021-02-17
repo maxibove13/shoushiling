@@ -1,4 +1,5 @@
-import React from "react";
+// Dependencies
+import { useState } from "react";
 
 // Assets
 import "./styles.scss";
@@ -7,7 +8,9 @@ import paperContainer from "../../utilities/icons/paper-container.png";
 import scissorContainer from "../../utilities/icons/scissor-container.png";
 import dotsContainer from "../../utilities/icons/dots-container.png";
 
-const MoveIconContainer = ({ iconType }) => {
+const MoveIconContainer = ({ iconType, parentHandleClick, whoIsParent, classToChild }) => {
+  const [clickedMove, setClickedMove] = useState(false);
+
   // Display iconContainer according to the iconType pass down from match
   let iconContainerToDisplay = dotsContainer;
   switch (iconType) {
@@ -26,9 +29,25 @@ const MoveIconContainer = ({ iconType }) => {
     default:
   }
 
+  const passClickedIconToParent = () => {
+    if (clickedMove) {
+      parentHandleClick(iconType);
+    } else {
+      parentHandleClick(null);
+    }
+
+    setClickedMove(!clickedMove);
+    console.log(clickedMove);
+  };
+
   return (
-    <div className="move-icons">
-      <img src={iconContainerToDisplay} alt="rock-icon" />
+    <div className={whoIsParent === "ChooseMove" ? "choose-move-icon" : "show-moves-icon"}>
+      <img
+        className={!clickedMove ? classToChild : ""}
+        onClick={passClickedIconToParent}
+        src={iconContainerToDisplay}
+        alt="rock-icon"
+      />
     </div>
   );
 };

@@ -4,6 +4,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin: 0 16px;
+  max-width: 1240px;
+
+  h3 {
+    margin-top: 32px;
+  }
 }
 
 .renderMoves-container {
@@ -21,4 +27,21 @@
 
 .lose-match {
   color: $error;
+}
+
+.btn-play {
+  order: 3;
+}
+
+.btn-continue {
+  align-self: center;
+  order: 3;
+  margin-top: 64px;
+}
+
+@media screen and (min-width: $mobile-breakpoint) {
+  .match {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

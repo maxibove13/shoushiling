@@ -21,10 +21,12 @@ const Home = () => {
   return (
     <>
       <div className="title-container">
-        <h2 className="welcome">Hola {state.userData.name}</h2>
+        <h3 className="welcome">Hola {state.userData.name},</h3>
         <div className="buttons-container">
           <div className="button-container">
-            <button onClick={handleNewMatch}>Nueva Partida</button>
+            <button className="btn-new-game" onClick={handleNewMatch}>
+              Nueva Partida
+            </button>
           </div>
         </div>
       </div>

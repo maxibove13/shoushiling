@@ -17,7 +17,6 @@ h3 {
   display: flex;
   flex-direction: column;
   margin: 0 16px;
-  margin-bottom: 24px;
   max-width: $mobile-width;
 
   h3 {
@@ -82,6 +81,7 @@ form {
       height: 20px;
       margin-top: 2px;
       padding: 4px 8px;
+      height: 30px;
 
       &:hover,
       &:focus {
@@ -90,6 +90,62 @@ form {
       }
     }
   }
+}
+
+@import "../../global.scss";
+
+.button-container {
+  text-align: center;
+}
+
+.disabled {
+  opacity: 0.4;
+  cursor: default !important;
+
+  &:hover {
+    box-shadow: 0px 0px 0px $light;
+  }
+}
+
+button {
+  align-self: center;
+  background-color: $primary-color;
+  border-radius: 6px;
+  border: 0.5px solid $light;
+  color: $light;
+  cursor: pointer !important;
+  height: 30px;
+  padding: 4px 16px;
+  transition: 0.3s;
+  min-width: 82px;
+  //box-shadow: 2px 2px 2px $gray;
+
+  &:hover {
+    box-shadow: 3px 3px 0px $light;
+    transition: 0.3s;
+  }
+}
+
+.button-google {
+  background-color: $light;
+  color: $dark;
+  border: solid $dark;
+  display: none;
+
+  &:hover {
+    box-shadow: 0px 0px 0px $light;
+    cursor: default !important;
+  }
+}
+
+.button-secondary {
+  background-color: $light;
+  color: $primary-color;
+  border: solid $primary-color;
+}
+
+.fontawesome-icon {
+  margin-right: 8px;
 }
 
 @media screen and (min-width: $mobile-breakpoint) {

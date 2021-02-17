@@ -29,6 +29,7 @@ const reducer = (localState, action) => {
       return {
         ...localState,
         isFetching: false,
+        hasError: false,
         matches: action.payload,
       };
     case "FETCH_MATCHES_FAILURE":
@@ -56,12 +57,12 @@ const reducer = (localState, action) => {
 };
 
 const UsersMatches = () => {
-  const [localState, dispatch] = useReducer(reducer, initialLocalState);
-  const { state: authState } = useContext(AuthContext);
+  const [localState, localDispatch] = useReducer(reducer, initialLocalState);
+  const { state: authState, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     // Notify is about to fetch
-    dispatch({
+    localDispatch({
       type: "FETCH_MATCHES_REQUEST",
     });
 
@@ -83,20 +84,27 @@ const UsersMatches = () => {
       }
     )
       .then((res) => {
-        if (res.ok) {
+        if (res.ok || res.status === 401) {
           return res.json();
         } else {
           throw res;
         }
       })
       .then((matches) => {
-        dispatch({
-          type: "FETCH_MATCHES_SUCCESS",
-          payload: matches,
-        });
+        if (matches.status === 401) {
+          dispatch({
+            type: "LOGOUT",
+          });
+        } else {
+          localDispatch({
+            type: "FETCH_MATCHES_SUCCESS",
+            payload: matches,
+          });
+        }
       })
       .catch((err) => {
-        dispatch({
+        console.log("hereErr", err);
+        localDispatch({
           type: "FETCH_MATCHES_FAILURE",
         });
       });
@@ -109,34 +117,55 @@ const UsersMatches = () => {
       ) : localState.hasError ? (
         "Error inesperado"
       ) : (
-        <>
+        <div className="matches-list-container">
+          <h3>Partidas en curso</h3>
           <div className="table activeMatches">
-            <h3>Partidas en curso</h3>
-            {console.log(authState.userData._id)}
-            {localState.matches.map((match) => {
-              if (match.state === "waitingApproval" || match.state === "playing") {
-                return (
-                  <MatchRow
-                    key={match._id}
-                    match={match}
-                    id_userMain={authState.userData._id}
-                    token={authState.token}
-                  />
-                );
-              }
-              return null;
-            })}
+            <div className="table-header">
+              <p>Oponente</p>
+              <p className="hide">Marcador</p>
+              <p className="hide-always">Jugadas</p>
+            </div>
+            {localState.matches.some((match) => {
+              return match.state === "waitingApproval" || match.state === "playing";
+            }) ? (
+              localState.matches.map((match) => {
+                if (match.state === "waitingApproval" || match.state === "playing") {
+                  return (
+                    <MatchRow
+                      key={match._id}
+                      match={match}
+                      id_userMain={authState.userData._id}
+                      token={authState.token}
+                    />
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <p className="no-matches">No tienes partidas en curso</p>
+            )}
           </div>
+          <h3>Histórico de partidas</h3>
           <div className="table finishedMatches">
-            <h3>Histórico de partidas</h3>
-            {localState.matches.map((match) => {
-              if (match.state === "finished") {
-                return <MatchRow key={match._id} match={match} token={authState.token} />;
-              }
-              return null;
-            })}
+            <div className="table-header">
+              <p>Oponente</p>
+              <p>Resultado</p>
+              <p>Jugadas</p>
+            </div>
+            {localState.matches.some((match) => {
+              return match.state === "finished";
+            }) ? (
+              localState.matches.map((match) => {
+                if (match.state === "finished") {
+                  return <MatchRow key={match._id} match={match} token={authState.token} />;
+                }
+                return null;
+              })
+            ) : (
+              <p className="no-matches">Aún no tienes partidas finalizadas</p>
+            )}
           </div>
-        </>
+        </div>
       )}
     </>
   );

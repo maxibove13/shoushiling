@@ -1,34 +1,47 @@
 //Dependencies
 import { useState } from "react";
 
+// Components
+import { MoveIconContainer } from "../../components";
+
 // Assets
 import "./styles.scss";
 
 const ChooseMove = ({ chosenMove }) => {
-  const [clickedMove, setClickedMove] = useState(false);
+  const [clickedMoveType, setClickedMoveType] = useState("null");
 
-  const handleChosenMove = (e) => {
-    setClickedMove(!clickedMove);
+  const handleChosenMove = (iconClickedFromChild) => {
+    console.log(iconClickedFromChild);
 
-    if (clickedMove) {
-      chosenMove(e.target.value);
-    } else {
-      chosenMove(null);
+    if (iconClickedFromChild !== null) {
+      setClickedMoveType(iconClickedFromChild);
     }
+
+    chosenMove(iconClickedFromChild);
   };
 
   return (
     <>
       <div className="moves-container">
-        <button value="Rock" onClick={handleChosenMove}>
-          Piedra
-        </button>
-        <button value="Paper" onClick={handleChosenMove}>
-          Papel
-        </button>
-        <button value="Scissor" onClick={handleChosenMove}>
-          Tijera
-        </button>
+        <MoveIconContainer
+          classToChild={clickedMoveType === "Rock" ? "clicked" : ""}
+          whoIsParent="ChooseMove"
+          parentHandleClick={handleChosenMove}
+          iconType="Rock"
+        ></MoveIconContainer>
+        <MoveIconContainer
+          classToChild={clickedMoveType === "Paper" ? "clicked" : ""}
+          whoIsParent="ChooseMove"
+          value="Paper"
+          parentHandleClick={handleChosenMove}
+          iconType="Paper"
+        ></MoveIconContainer>
+        <MoveIconContainer
+          classToChild={clickedMoveType === "Scissor" ? "clicked" : ""}
+          whoIsParent="ChooseMove"
+          parentHandleClick={handleChosenMove}
+          iconType="Scissor"
+        ></MoveIconContainer>
       </div>
     </>
   );

@@ -1,11 +1,16 @@
 .show-points {
   display: flex;
   text-align: center;
-  justify-content: space-between;
-  margin: 0 64px;
+  justify-content: space-around;
 
-  .div {
+  div {
     display: flex;
     flex-direction: column;
+    width: 50%;
+
+    p {
+      margin-top: 32px;
+      font-weight: bold;
+    }
   }
 }

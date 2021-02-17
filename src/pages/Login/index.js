@@ -3,9 +3,6 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 
-//Components
-import { Button } from "../../components";
-
 // Assets
 import "./styles.scss";
 
@@ -101,6 +98,12 @@ const Login = () => {
     }
   };
 
+  const handleRegisterClick = () => {
+    dispatch({
+      type: "REGISTER",
+    });
+  };
+
   return (
     <div>
       <div className="title-container main-title">
@@ -144,26 +147,22 @@ const Login = () => {
             type="submit"
             form="loginForm"
             disabled={
-              userData.isSubmitting ||
-              userData.email === "" ||
-              userData.password === ""
+              userData.isSubmitting || userData.email === "" || userData.password === ""
             }
             className={
               // If email or password input are "" style "disable" class.
-              userData.email === "" || userData.password === ""
-                ? "disabled"
-                : ""
+              userData.email === "" || userData.password === "" ? "disabled" : ""
             }
           >
             {userData.isSubmitting ? "Cargando" : "Iniciar sesión"}
           </button>
         </div>
       </div>
-      <div className="buttons-container">
+      <div className="buttons-container register-button-container">
         <h3>¿No tienes cuenta?</h3>
-        <Link to="/register">
-          <Button buttonVariant={"button-secondary"} text={"Regístrate"} />
-        </Link>
+        <button onClick={handleRegisterClick} className="button-secondary">
+          Regístrate
+        </button>
       </div>
     </div>
   );

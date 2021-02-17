@@ -88,9 +88,9 @@ const ChooseOponent = () => {
   };
 
   return (
-    <div>
+    <div className="choose-oponent-container">
       <h2>Elige tu oponente</h2>
-      <div className="chooseOponent-table">
+      <div className="table choose-oponent-list">
         {localState.isFetching
           ? "Cargando"
           : localState.hasError

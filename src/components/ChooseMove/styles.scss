@@ -1,5 +1,34 @@
 @import "../../global.scss";
 
+.moves-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 40px;
+  margin-top: 48px;
+
+  .choose-move-icon {
+    cursor: pointer;
+  }
+}
+
 .clicked {
-  border: solid $secondary-color;
+  transform: scale();
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.1);
+    // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(0.85);
+    //box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(1.1);
+    //box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }

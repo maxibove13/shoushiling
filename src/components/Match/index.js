@@ -76,44 +76,45 @@ const Match = () => {
         if (state.userData._id === state.match.player_1.id_user) {
           if (state.match.games.length === 0) {
             return (
-              <div className="renderMoves-container">
-                <h3>Que empiece el juego!</h3>
+              <>
+                <h3>¡Qué comience el juego!</h3>
                 <h3>Elige tu jugada</h3>
-                {/* remember to update state to playing */}
                 <ChooseMove chosenMove={handleChosenMove} />
-                {/* {console.log(localState.chosenMove)} */}
+
                 <button
-                  className={localState.chosenMove === null ? "disabled" : ""}
+                  className={localState.chosenMove === null ? "disabled btn-play" : "btn-play"}
                   disabled={localState.chosenMove === null}
                   onClick={submitMove}
                 >
                   Jugar
                 </button>
-              </div>
+              </>
             );
           } else {
             return (
-              <div className="renderMoves-container">
+              <>
                 <h3>Esperando a que {localState.oponentName} acepte la partida</h3>
-                <button onClick={goHome}>Volver</button>
-              </div>
+                <button className="btn-continue" onClick={goHome}>
+                  Volver
+                </button>
+              </>
             );
           }
         } else {
           return (
-            <div className="renderMoves-container">
-              <h3>Que empiece el juego!</h3>
+            <>
+              <h3>¡Qué comience el juego!</h3>
               <h3>Elige tu jugada</h3>
               {/* remember to update state to playing */}
               <ChooseMove chosenMove={handleChosenMove} />
               <button
-                className={localState.chosenMove === null ? "disabled" : ""}
+                className={localState.chosenMove === null ? "disabled btn-play" : "btn-play"}
                 disabled={localState.chosenMove === null}
                 onClick={submitMove}
               >
                 Jugar
               </button>
-            </div>
+            </>
           );
         }
         break;
@@ -131,19 +132,20 @@ const Match = () => {
             localState.userKnowItsResult
           ) {
             return (
-              <div className="renderMoves-container">
+              <>
                 <h3>Que siga el juego!</h3>
                 <h3>Elige tu jugada</h3>
                 {/* remember to update state to playing */}
                 <ChooseMove chosenMove={handleChosenMove} />
+
                 <button
-                  className={localState.chosenMove === null ? "disabled" : ""}
+                  className={localState.chosenMove === null ? "disabled btn-play" : "btn-play"}
                   disabled={localState.chosenMove === null}
                   onClick={submitMove}
                 >
                   Jugar
                 </button>
-              </div>
+              </>
             );
             // If game is complete, show results first
           } else {
@@ -163,7 +165,9 @@ const Match = () => {
                         ]
                   }
                 />
-                <button onClick={handleKeepPlaying}>Continuar</button>
+                <button className="btn-continue" onClick={handleKeepPlaying}>
+                  Continuar
+                </button>
               </div>
             );
           }
@@ -184,7 +188,9 @@ const Match = () => {
                       ]
                 }
               />
-              <button onClick={goHome}>Volver</button>
+              <button className="btn-continue" onClick={goHome}>
+                Volver
+              </button>
             </div>
           );
         }

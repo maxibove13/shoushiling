@@ -106,15 +106,18 @@ const MatchRow = ({ match, id_userMain, token }) => {
     return (
       <>
         <div className="chooseOponent-row">
-          <p>{oponentName}</p>
+          <div className="oponent-name-container">
+            <p>{oponentName}</p>
+          </div>
           {id_userMain === match.player_1.id_user ? (
             <>
-              <div>
+              <div className="points hide">
                 <p>{match.player_1.points}</p>
+                <p>-</p>
                 <p>{match.player_2.points}</p>
               </div>
-              <button onClick={handleResumeMatchClick} className="chooseOponent-button">
-                Esperando
+              <button onClick={handleResumeMatchClick} className="btn-resume-match">
+                Reanudar
               </button>
             </>
           ) : (

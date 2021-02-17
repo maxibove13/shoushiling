@@ -11,7 +11,7 @@ import logo from "../../utilities/icons/shoushiling-logo.png";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCogs } from "@fortawesome/free-solid-svg-icons";
 
-const Nav = () => {
+const Header = () => {
   const { state, dispatch } = useContext(AuthContext);
 
   const initialMenuState = false;
@@ -43,17 +43,20 @@ const Nav = () => {
           <FontAwesomeIcon icon={faCogs} className="disabled" />
         </div>
       </header>
-      <nav>
-        <div>
-          {menu && state.isAuthenticated === true ? (
-            <h3 onClick={() => dispatch({ type: "LOGOUT" })}>Logout</h3>
-          ) : (
-            ""
-          )}
+      <nav className={menu && "show-nav"}>
+        <div className="categories">
+          <h2>Estadísticas</h2>
+          <h2>Aprende</h2>
         </div>
+        {state.isAuthenticated && (
+          <div className="options">
+            <h3>Cambiar contraseña</h3>
+            <h3 onClick={() => dispatch({ type: "LOGOUT" })}>Cerrar sesión</h3>
+          </div>
+        )}
       </nav>
     </>
   );
 };
 
-export default Nav;
+export default Header;

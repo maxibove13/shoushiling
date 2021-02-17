@@ -110,10 +110,12 @@ const Register = () => {
               validationError: "Registro exitoso",
               registered: true,
             });
-            dispatch({
-              type: "LOGIN",
-              payload: resObject,
-            });
+            setTimeout(() => {
+              dispatch({
+                type: "LOGIN",
+                payload: resObject,
+              });
+            }, 2000);
           } else {
             setUserData({
               ...userData,
@@ -134,7 +136,13 @@ const Register = () => {
     }
   };
 
-  return (
+  const handleHaveAccount = () => {
+    dispatch({
+      type: "GO_HOME",
+    });
+  };
+
+  return !userData.registered ? (
     <div>
       <div className="title-container">
         <h2>Registro</h2>
@@ -182,13 +190,7 @@ const Register = () => {
           />
         </label>
       </form>
-      <div
-        className={
-          userData.registered
-            ? "small-text succesfull"
-            : "small-text validation-error "
-        }
-      >
+      <div className={"small-text validation-error"}>
         <p>{userData.validationError}</p>
       </div>
 
@@ -218,13 +220,16 @@ const Register = () => {
           >
             {userData.isSubmitting ? "Cargando" : "Regístrate"}
           </button>
-          <Link to="/">
-            <p className="small-text already-have-account">
-              ¿Ya tienes cuenta?
-            </p>
-          </Link>
+          <p onClick={handleHaveAccount} className="small-text already-have-account">
+            ¿Ya tienes cuenta?
+          </p>
         </div>
       </div>
+    </div>
+  ) : (
+    <div>
+      <h3>Registro Exitoso</h3>
+      <h2>Redireccionando a Home...</h2>
     </div>
   );
 };

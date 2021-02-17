@@ -1,0 +1,18 @@
+.chooseOponent-row {
+  .oponent-name-container {
+    width: 96px;
+  }
+
+  .points {
+    display: flex;
+
+    p {
+      margin: 0 4px;
+    }
+  }
+
+  .btn-resume-match {
+    width: 88px;
+    padding: 4px 8px;
+  }
+}

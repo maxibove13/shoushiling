@@ -7,12 +7,12 @@ const ShowPoints = ({ points, names }) => {
   return (
     <>
       <div className="show-points">
-        <div>
-          <h3>{names[0]}</h3>
+        <div className="playing-names-container">
+          <p>{names[0]}</p>
           <p>{points[0]}</p>
         </div>
-        <div>
-          <h3>{names[1]}</h3>
+        <div className="playing-points-container">
+          <p>{names[1]}</p>
           <p>{points[1]}</p>
         </div>
       </div>
