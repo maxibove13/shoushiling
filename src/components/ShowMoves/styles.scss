@@ -3,6 +3,10 @@
 .show-move {
   display: flex;
   justify-content: space-between;
-  margin: 0 64px;
+  margin: 32px 24px 0 32px;
   align-items: center;
+
+  h3 {
+    margin: 0;
+  }
 }

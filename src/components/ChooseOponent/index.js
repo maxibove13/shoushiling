@@ -4,7 +4,7 @@ import { useEffect, useReducer, useContext } from "react";
 import { AuthContext } from "../../App";
 
 //Components
-import { OponentRow } from "..";
+import { OponentRow, Loading } from "..";
 
 // Assets
 import "./styles.scss";
@@ -87,30 +87,30 @@ const ChooseOponent = () => {
     });
   };
 
-  return (
-    <div className="choose-oponent-container">
-      <h2>Elige tu oponente</h2>
-      <div className="table choose-oponent-list">
-        {localState.isFetching
-          ? "Cargando"
-          : localState.hasError
-          ? "Has error"
-          : localState.users.map((user) => {
-              // Map only if it is not the own user
-              if (user._id !== authState.userData._id) {
-                return (
-                  <OponentRow
-                    key={user._id}
-                    toParent={fromChildCallbackFunction}
-                    user={user}
-                  ></OponentRow>
-                );
-              }
-              return null;
-            })}
+  if (!localState.isFetching) {
+    return (
+      <div className="choose-oponent-container">
+        <h2>Elige tu oponente</h2>
+        <div className="table choose-oponent-list">
+          {localState.users.map((user) => {
+            // Map only if it is not the own user
+            if (user._id !== authState.userData._id) {
+              return (
+                <OponentRow
+                  key={user._id}
+                  toParent={fromChildCallbackFunction}
+                  user={user}
+                ></OponentRow>
+              );
+            }
+            return null;
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Loading />;
+  }
 };
 
 export default ChooseOponent;

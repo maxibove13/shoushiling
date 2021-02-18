@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles.scss";
 import logo from "../../utilities/icons/shoushiling-logo.png";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+// import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCogs } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
@@ -35,8 +35,12 @@ const Header = () => {
   return (
     <>
       <header className="nav-bar">
-        <div className="icons-header">
-          <FontAwesomeIcon icon={faBars} onClick={showMenu} />
+        <div
+          onClick={showMenu}
+          className={menu ? "icons-header burger-menu menu-open" : "icons-header burger-menu"}
+        >
+          <div className="bar-top"></div>
+          <div className="bar-bottom"></div>
         </div>
         <img onClick={handleLogoClick} src={logo} alt="shoushiling-logo" />
         <div className="icons-header">
@@ -55,6 +59,7 @@ const Header = () => {
           </div>
         )}
       </nav>
+      <div className={menu ? "overlay overlay-display" : "overlay"}></div>
     </>
   );
 };

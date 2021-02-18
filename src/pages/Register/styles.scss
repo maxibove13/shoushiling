@@ -22,7 +22,7 @@ div {
   color: $success;
 }
 
-@media screen and (min-width: $mobile-breakpoint) {
+@media screen and (min-width: $large-breakpoint) {
   h2 {
     text-align: center !important;
     margin-left: 0 !important;

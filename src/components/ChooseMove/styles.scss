@@ -3,7 +3,7 @@
 .moves-container {
   display: flex;
   justify-content: space-between;
-  margin: 0px 40px;
+  margin: 0px 16px;
   margin-top: 48px;
 
   .choose-move-icon {
@@ -23,7 +23,7 @@
   }
 
   70% {
-    transform: scale(0.85);
+    transform: scale(0.9);
     //box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
   }
 

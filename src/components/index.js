@@ -1,5 +1,4 @@
 export { default as Header } from "./Header";
-export { default as Maintenance } from "./Maintenance";
 export { default as Menu } from "./Menu";
 export { default as OponentRow } from "./OponentRow";
 export { default as ChooseOponent } from "./ChooseOponent";
@@ -11,3 +10,5 @@ export { default as ChooseMove } from "./ChooseMove";
 export { default as ShowMoves } from "./ShowMoves";
 export { default as ShowPoints } from "./ShowPoints";
 export { default as MoveIconContainer } from "./MoveIconContainer";
+export { default as Loading } from "./Loading";
+export { default as RegisterSuccess } from "./RegisterSuccess";

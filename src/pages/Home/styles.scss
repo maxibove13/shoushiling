@@ -5,7 +5,11 @@
   max-width: 1240px;
 }
 
-.title-container {
+.welcome-container {
+  margin-top: 32px;
+  margin-left: 16px;
+  max-width: $large-breakpoint;
+
   h3 {
     margin-bottom: 16px;
     text-transform: capitalize;
@@ -19,12 +23,20 @@
 
 .btn-new-game {
   width: 136px;
+  margin-bottom: 16px;
 }
 
-@media screen and (min-width: $mobile-breakpoint) {
+@media screen and (min-width: $large-breakpoint) {
   .matches-list-container,
   .title-container {
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@media screen and (min-width: $large-breakpoint) {
+  .welcome-container {
+    margin-right: auto;
+    margin-left: auto;
   }
 }

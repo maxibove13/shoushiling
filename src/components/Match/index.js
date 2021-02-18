@@ -180,7 +180,7 @@ const Match = () => {
           }
         } else {
           return (
-            <div className="renderMoves-container">
+            <>
               <h3>Esperando jugada de {localState.oponentName}</h3>
               <ShowMoves
                 moves={
@@ -198,28 +198,32 @@ const Match = () => {
               <button className="btn-continue" onClick={goHome}>
                 Volver
               </button>
-            </div>
+            </>
           );
         }
         break;
       case "finished":
         return (
-          <div className="renderMoves-container">
-            {renderResultMatch()}
-            <ShowMoves
-              moves={
-                state.userData._id === state.match.player_1.id_user
-                  ? [
-                      state.match.games[state.match.games.length - 1].movePlayer_1,
-                      state.match.games[state.match.games.length - 1].movePlayer_2,
-                    ]
-                  : [
-                      state.match.games[state.match.games.length - 1].movePlayer_2,
-                      state.match.games[state.match.games.length - 1].movePlayer_1z,
-                    ]
-              }
-            />
-          </div>
+          <>
+            <div className="renderMoves-container">
+              {renderResultMatch()}
+              <ShowMoves
+                moves={
+                  state.userData._id === state.match.player_1.id_user
+                    ? [
+                        state.match.games[state.match.games.length - 1].movePlayer_1,
+                        state.match.games[state.match.games.length - 1].movePlayer_2,
+                      ]
+                    : [
+                        state.match.games[state.match.games.length - 1].movePlayer_2,
+                        state.match.games[state.match.games.length - 1].movePlayer_1z,
+                      ]
+                }
+              />
+            </div>
+            <button>Revancha</button>
+            <button className="btn-continue">Volver</button>
+          </>
         );
         break;
       default:

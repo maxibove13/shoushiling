@@ -14,10 +14,10 @@ $success: #1aa070;
 // Devices widths
 $mobile-width: 320px;
 $max-mobileElement-width: 288px;
-$max-width-component: 1240px;
 
 // Breakpoints
 $mobile-breakpoint: 480px;
+$large-breakpoint: 1240px;
 
 html,
 body {
@@ -111,7 +111,7 @@ p {
   font-size: 16px !important;
 }
 
-@media screen and (min-width: $mobile-breakpoint) {
+@media screen and (min-width: $large-breakpoint) {
   html,
   body {
     margin-left: auto;

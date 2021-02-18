@@ -3,6 +3,9 @@ import { useEffect, useReducer, useContext } from "react";
 
 import { AuthContext } from "../../App";
 
+// Components
+import { Loading } from "../../components";
+
 // Assets
 import "./styles.scss";
 
@@ -115,7 +118,7 @@ const CreateMatch = () => {
   return (
     <>
       {localState.isFetching ? (
-        "Creando partida"
+        <Loading />
       ) : localState.hasError ? (
         <div>
           <h2>{localState.errorMessage}</h2>

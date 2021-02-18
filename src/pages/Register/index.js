@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../App";
 
 // Components
-//import { Button } from "../../components";
+import { RegisterSuccess } from "../../components";
 
 // Assets
 import "./styles.scss";
@@ -114,7 +114,7 @@ const Register = () => {
                 type: "LOGIN",
                 payload: resObject,
               });
-            }, 2000);
+            }, 2200);
           } else {
             setUserData({
               ...userData,
@@ -226,10 +226,7 @@ const Register = () => {
       </div>
     </div>
   ) : (
-    <div>
-      <h3>Registro Exitoso</h3>
-      <h2>Redireccionando a Home...</h2>
-    </div>
+    <RegisterSuccess />
   );
 };
 
