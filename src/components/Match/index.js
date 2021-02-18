@@ -442,7 +442,7 @@ const Match = () => {
     } else {
       return (
         <h3 className={userWins ? "match-result win-match" : "match-result lose-match"}>
-          {userWins ? "Ganaste la partida!" : "Perdiste la partida!"}
+          {userWins ? "¡Ganaste la partida!" : "¡Perdiste la partida!"}
         </h3>
       );
     }
