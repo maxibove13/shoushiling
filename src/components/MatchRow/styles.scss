@@ -1,3 +1,5 @@
+@import "../../global.scss";
+
 .chooseOponent-row {
   .oponent-name-container {
     width: 33%;
@@ -17,29 +19,39 @@
     justify-content: right;
     width: 33%;
 
+    &:hover {
+      svg {
+        color: $primary-color;
+      }
+    }
+
     svg {
       margin-left: 16px;
       transition: all 0.3s;
       cursor: pointer;
-
-      &:hover {
-        transform: scale(1.4);
-      }
     }
   }
 
   .resume-match-icon-container {
     cursor: pointer;
-    transition: all 0.3s;
+
+    width: 33%;
+    display: flex;
+    justify-content: right;
+
+    svg {
+      transition: all 0.3s;
+    }
 
     &:hover {
-      transform: scale(1.4);
+      svg {
+        color: $primary-color;
+      }
     }
   }
 
   .points {
     display: flex;
-    margin-right: 66px;
 
     p {
       margin: 0 4px;

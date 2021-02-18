@@ -2,3 +2,15 @@ movesButtons-container {
   display: flex;
   justify-content: space-between;
 }
+
+.already-have-match-container {
+  text-align: center;
+
+  h3 {
+    margin-top: 32px;
+  }
+
+  button {
+    margin-top: 334px;
+  }
+}

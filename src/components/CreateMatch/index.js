@@ -109,9 +109,9 @@ const CreateMatch = () => {
       });
   }, []);
 
-  const goHome = () => {
+  const goBackChooseOponentClick = () => {
     dispatch({
-      type: "GO_HOME",
+      type: "CHOOSING_OPONENT",
     });
   };
 
@@ -120,9 +120,9 @@ const CreateMatch = () => {
       {localState.isFetching ? (
         <Loading />
       ) : localState.hasError ? (
-        <div>
-          <h2>{localState.errorMessage}</h2>
-          <button onClick={goHome}>Volver</button>
+        <div className="already-have-match-container">
+          <h3>{localState.errorMessage}</h3>
+          <button onClick={goBackChooseOponentClick}>Volver</button>
         </div>
       ) : (
         ""

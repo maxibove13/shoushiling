@@ -5,10 +5,15 @@
   flex-direction: column;
   justify-content: space-between;
   margin: 0 16px;
-  max-width: 1240px;
+  max-width: 600px;
 
   h3 {
     margin-top: 32px;
+  }
+
+  .waiting-response-title {
+    margin-top: 32px;
+    margin-bottom: 152px;
   }
 }
 
@@ -34,8 +39,12 @@
 
 .btn-continue {
   align-self: center;
+  order: 4;
+}
+
+.btn-revancha {
+  margin-bottom: 8px;
   order: 3;
-  margin-top: 64px;
 }
 
 @media screen and (min-width: $mobile-breakpoint) {

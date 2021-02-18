@@ -37,6 +37,12 @@ body {
   color: $light;
 }
 
+.App {
+  max-width: $large-breakpoint;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -113,7 +119,8 @@ p {
 
 @media screen and (min-width: $large-breakpoint) {
   html,
-  body {
+  body,
+  .App {
     margin-left: auto;
     margin-right: auto;
   }

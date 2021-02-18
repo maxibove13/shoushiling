@@ -100,7 +100,9 @@ const Match = () => {
           } else {
             return (
               <>
-                <h3>Esperando respuesta de {localState.oponentName}</h3>
+                <h3 className="waiting-response-title">
+                  Esperando respuesta de {localState.oponentName}
+                </h3>
                 <button className="btn-continue" onClick={goHome}>
                   Volver
                 </button>
@@ -221,7 +223,9 @@ const Match = () => {
                 }
               />
             </div>
-            <button>Revancha</button>
+            <button className="btn-revancha" onClick={handleRematchClick}>
+              Revancha
+            </button>
             <button className="btn-continue">Volver</button>
           </>
         );
@@ -229,6 +233,18 @@ const Match = () => {
       default:
         return null;
     }
+  };
+
+  const handleRematchClick = () => {
+    let idOponent = state.match.player_2.id_user;
+    if (state.userData._id === state.match.player_2.id_user) {
+      idOponent = state.match.player_1.id_user;
+    }
+    console.log(state.match);
+    dispatch({
+      type: "CREATE_MATCH",
+      payload: idOponent,
+    });
   };
 
   const submitMove = () => {

@@ -65,7 +65,6 @@ const reducer = (state, action) => {
         id_oponent: action.payload,
       };
     case "RESUME_MATCH":
-      console.log("DISPATCHED RESUME_MATCH", action.payload);
       return {
         ...state,
         setPage: "Match",

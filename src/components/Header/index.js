@@ -44,7 +44,7 @@ const Header = () => {
         </div>
         <img onClick={handleLogoClick} src={logo} alt="shoushiling-logo" />
         <div className="icons-header">
-          <FontAwesomeIcon icon={faCogs} className="disabled" />
+          <FontAwesomeIcon icon={faCogs} className="hide-always" />
         </div>
       </header>
       <nav className={menu ? "show-nav" : undefined}>

@@ -116,6 +116,7 @@ nav {
   .overlay-display {
     opacity: 0.85;
     transition: all 1s ease;
+    z-index: 5;
   }
 }
 
