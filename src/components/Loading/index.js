@@ -17,7 +17,7 @@ const Loading = () => {
 
   return (
     <div className="loading">
-      <Lottie className="lottie" options={defaultOptions} height={120} width={120} />
+      <Lottie className="lottie" options={defaultOptions} height={100} width={100} />
     </div>
   );
 };

@@ -27,6 +27,7 @@ const Header = () => {
   };
 
   const handleLogoClick = () => {
+    setMenu(false);
     dispatch({
       type: "GO_HOME",
     });

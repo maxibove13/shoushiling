@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 
 // Components
-import { ChooseMove, ShowMoves, ShowPoints } from "../../components";
+import { ChooseMove, ShowMoves, ShowPoints, Loading } from "../../components";
 
 // Assets
 import "./styles.scss";
@@ -12,7 +12,7 @@ import "./styles.scss";
 const initialLocalState = {
   oponentName: null,
   chosenMove: null,
-  isSubmitting: false,
+  isSubmitting: true,
   hasError: false,
   userKnowItsResult: false,
 };
@@ -62,7 +62,7 @@ const Match = () => {
         }
       })
       .then((oponentName) => {
-        setLocalState({ ...localState, oponentName: oponentName.name });
+        setLocalState({ ...localState, oponentName: oponentName.name, isSubmitting: false });
       })
       .catch((err) => {
         console.log("err", err);
@@ -100,9 +100,20 @@ const Match = () => {
           } else {
             return (
               <>
-                <h3 className="waiting-response-title">
-                  Esperando respuesta de {localState.oponentName}
-                </h3>
+                <h3>Esperando respuesta de {localState.oponentName}</h3>
+                <ShowMoves
+                  moves={
+                    state.userData._id === state.match.player_1.id_user
+                      ? [
+                          state.match.games[state.match.games.length - 1].movePlayer_1,
+                          state.match.games[state.match.games.length - 1].movePlayer_2,
+                        ]
+                      : [
+                          state.match.games[state.match.games.length - 1].movePlayer_2,
+                          state.match.games[state.match.games.length - 1].movePlayer_1,
+                        ]
+                  }
+                />
                 <button className="btn-continue" onClick={goHome}>
                   Volver
                 </button>
@@ -142,7 +153,7 @@ const Match = () => {
           ) {
             return (
               <>
-                <h3>Que siga el juego!</h3>
+                <h3>¡Que siga el juego!</h3>
                 <h3>Elige tu jugada</h3>
                 {/* remember to update state to playing */}
                 <ChooseMove chosenMove={handleChosenMove} />
@@ -159,7 +170,7 @@ const Match = () => {
             // If game is complete, show results first
           } else {
             return (
-              <div className="renderMoves-container">
+              <>
                 {renderResultMatch()}
                 <ShowMoves
                   moves={
@@ -177,7 +188,7 @@ const Match = () => {
                 <button className="btn-continue" onClick={handleKeepPlaying}>
                   Continuar
                 </button>
-              </div>
+              </>
             );
           }
         } else {
@@ -475,17 +486,23 @@ const Match = () => {
   // Different scenarios when clicking resume match or show button in home
 
   return (
-    <div className="match">
-      {renderMoves()}
-      <ShowPoints
-        points={
-          state.userData._id === state.match.player_1.id_user
-            ? [pointsPlayer_1, pointsPlayer_2]
-            : [pointsPlayer_2, pointsPlayer_1]
-        }
-        names={[state.userData.name, localState.oponentName]}
-      />
-    </div>
+    <>
+      {localState.isSubmitting ? (
+        <Loading />
+      ) : (
+        <div className="match">
+          {renderMoves()}
+          <ShowPoints
+            points={
+              state.userData._id === state.match.player_1.id_user
+                ? [pointsPlayer_1, pointsPlayer_2]
+                : [pointsPlayer_2, pointsPlayer_1]
+            }
+            names={[state.userData.name, localState.oponentName]}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

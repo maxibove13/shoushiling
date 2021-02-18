@@ -17,7 +17,9 @@ const RegisterSuccess = () => {
 
   return (
     <div className="register-success">
-      <Lottie className="lottie" options={defaultOptions} height={240} width={240} />
+      <div>
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
     </div>
   );
 };

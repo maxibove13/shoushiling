@@ -19,8 +19,14 @@
     justify-content: right;
     width: 33%;
 
-    &:hover {
-      svg {
+    .fa-check {
+      &:hover {
+        color: $primary-color;
+      }
+    }
+
+    .fa-times {
+      &:hover {
         color: $primary-color;
       }
     }

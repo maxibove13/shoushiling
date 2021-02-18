@@ -10,12 +10,9 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const MatchRow = ({ match }) => {
+const MatchRow = ({ match, rejectedMatch }) => {
   const { state, dispatch } = useContext(AuthContext);
   const [oponentName, setOponentName] = useState(null);
-  // const [rejectedMatch, setRejectedMatch] = useState(false);
-
-  console.log("re-rendering <MatchRow/>", match.state);
 
   const handleResumeMatchClick = () => {
     dispatch({
@@ -63,55 +60,6 @@ const MatchRow = ({ match }) => {
       });
   }, [state.userData._id, match, state.token]);
 
-  const handleRejectMatchClick = () => {
-    // if new match is rejected fetch to update match state to rejected
-    console.log(
-      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/rejectMatch`
-    );
-    fetch(
-      `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches/rejectMatch`,
-      {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: state.token,
-        },
-        body: JSON.stringify({
-          state: "rejected",
-          _id: match._id,
-          player_1: {
-            id_user: match.player_1.id_user,
-            points: match.player_1.points,
-          },
-          player_2: {
-            id_user: match.player_2.id_user,
-            points: match.player_2.points,
-          },
-          games: match.state.games,
-        }),
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw res;
-      })
-      .then((match) => {
-        // setRejectedMatch(true);
-        console.log(match);
-        dispatch({
-          type: "GO_HOME",
-          payload: match,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: "FIRST_MOVE_FAILURE",
-        });
-      });
-  };
-
   const showOponentName = () => {
     return (
       <div className="oponent-name-container show-full-name">
@@ -143,8 +91,12 @@ const MatchRow = ({ match }) => {
             </>
           ) : (
             <div className="accept-reject-icons">
-              <FontAwesomeIcon icon={faCheck} onClick={handleResumeMatchClick} />
-              <FontAwesomeIcon icon={faTimes} onClick={handleRejectMatchClick} />
+              <FontAwesomeIcon
+                className="check"
+                icon={faCheck}
+                onClick={handleResumeMatchClick}
+              />
+              <FontAwesomeIcon className="times" icon={faTimes} onClick={rejectedMatch} />
             </div>
           )}
         </div>

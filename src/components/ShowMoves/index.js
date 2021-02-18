@@ -10,17 +10,9 @@ const ShowMoves = ({ moves }) => {
   return (
     <>
       <div className="show-move">
-        <MoveIconContainer
-          iconType={moves[0]}
-          whoIsParent="ShowMoves"
-          parentHandleClick={() => {}}
-        />
+        <MoveIconContainer iconType={moves[0]} whoIsParent="ShowMoves" />
         <h3>vs</h3>
-        <MoveIconContainer
-          iconType={moves[1]}
-          whoIsParent="ShowMoves"
-          parentHandleClick={() => {}}
-        />
+        <MoveIconContainer iconType={moves[1]} whoIsParent="ShowMoves" />
       </div>
     </>
   );
