@@ -67,7 +67,7 @@ const Register = () => {
       setUserData({
         ...userData,
         isSubmitting: false,
-        validationError: "La contraseñas no coinciden",
+        validationError: "Las contraseñas no coinciden",
       });
     } else {
       // Notify that is about to submit

@@ -149,7 +149,9 @@ const Login = () => {
             }
             className={
               // If email or password input are "" style "disable" class.
-              userData.email === "" || userData.password === "" ? "disabled" : ""
+              userData.email === "" || userData.password === ""
+                ? "disabled btn-disabled-hover"
+                : ""
             }
           >
             {userData.isSubmitting ? "Cargando" : "Iniciar sesión"}
