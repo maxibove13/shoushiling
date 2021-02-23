@@ -42,11 +42,15 @@
     cursor: pointer;
 
     width: 33%;
-    display: flex;
-    justify-content: right;
+    position: relative;
 
-    svg {
-      transition: all 0.3s;
+    div {
+      position: absolute;
+      right: 0;
+
+      svg {
+        transition: all 0.3s;
+      }
     }
 
     &:hover {

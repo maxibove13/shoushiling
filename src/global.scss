@@ -41,6 +41,8 @@ body {
   max-width: $large-breakpoint;
   margin-left: 16px;
   margin-right: 16px;
+  display: block;
+  overflow: auto;
 }
 
 code {

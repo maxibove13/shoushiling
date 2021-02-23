@@ -82,11 +82,9 @@ const MatchRow = ({ match, rejectedMatch }) => {
                 <p>{match.player_2.points}</p>
               </div>
               <div className="resume-match-icon-container">
-                <FontAwesomeIcon
-                  className="resume-match-icon"
-                  icon={faArrowRight}
-                  onClick={handleResumeMatchClick}
-                />
+                <div className="resume-match-icon">
+                  <FontAwesomeIcon icon={faArrowRight} onClick={handleResumeMatchClick} />
+                </div>
               </div>
             </>
           ) : (
@@ -120,11 +118,9 @@ const MatchRow = ({ match, rejectedMatch }) => {
           </p>
         </div>
         <div className="resume-match-icon-container">
-          <FontAwesomeIcon
-            className="resume-match-icon"
-            icon={faArrowRight}
-            onClick={handleResumeMatchClick}
-          />
+          <div className="resume-match-icon">
+            <FontAwesomeIcon icon={faArrowRight} onClick={handleResumeMatchClick} />
+          </div>
         </div>
       </div>
     );
