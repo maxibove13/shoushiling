@@ -88,8 +88,8 @@ const Register = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: userData.name,
-            email: userData.email,
+            name: userData.name.toLowerCase(),
+            email: userData.email.toLowerCase(),
             password: userData.password,
           }),
         }
@@ -152,7 +152,7 @@ const Register = () => {
           Alias
           <input
             type="text"
-            value={userData.name.toLowerCase()}
+            value={userData.name}
             onChange={handleInputChange}
             name="name"
             id="name"
@@ -162,7 +162,7 @@ const Register = () => {
           Email
           <input
             type="text"
-            value={userData.email.toLowerCase()}
+            value={userData.email}
             onChange={handleInputChange}
             name="email"
             id="email"
