@@ -62,7 +62,6 @@ const CreateMatch = () => {
       type: "NEW_MATCH_REQUEST",
     });
 
-    console.log(authState.id_oponent);
     // Fetch a create match request
     console.log(
       `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/matches`

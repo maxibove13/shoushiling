@@ -5,7 +5,7 @@ import Lottie from "react-lottie";
 import animationData from "../../utilities/lottie-animations/success.json";
 import "./styles.scss";
 
-const RegisterSuccess = () => {
+const RegisterSuccess = ({ variantStyle }) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -16,7 +16,13 @@ const RegisterSuccess = () => {
   };
 
   return (
-    <div className="register-success">
+    <div
+      className={
+        variantStyle === "change-password"
+          ? "register-success change-password"
+          : "register-success"
+      }
+    >
       <div>
         <Lottie options={defaultOptions} height={100} width={100} />
       </div>

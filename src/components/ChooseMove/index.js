@@ -1,5 +1,5 @@
 //Dependencies
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Assets
 import "./styles.scss";

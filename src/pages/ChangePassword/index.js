@@ -8,21 +8,20 @@ import { RegisterSuccess } from "../../components";
 // Assets
 import "./styles.scss";
 
-const Register = () => {
-  const { dispatch } = useContext(AuthContext);
+const ChangePassword = () => {
+  const { state, dispatch } = useContext(AuthContext);
 
   // Define input initialState (userData)
   const initialState = {
-    name: "",
     email: "",
-    password: "",
-    checkPassword: "",
+    actualPassword: "",
+    newPassword: "",
+    newCheckPassword: "",
     isSubmitting: false,
     validationError: null,
-    registered: false,
+    success: false,
   };
 
-  // In order not to run the initialState every time the component is rerender I pass the initial state as a function to useState.
   const [userData, setUserData] = useState(() => {
     return initialState;
   });
@@ -31,7 +30,6 @@ const Register = () => {
     setUserData({
       ...userData,
       [event.target.name]: event.target.value,
-      validationError: null,
     });
   };
 
@@ -39,35 +37,24 @@ const Register = () => {
     event.preventDefault(); // Prevent default form action
 
     // Frontend validations
+    console.log(userData.email);
     if (!userData.email.includes("@")) {
       setUserData({
         ...userData,
         isSubmitting: false,
         validationError: "Email inválido",
       });
-    } else if (/\s/.test(userData.name)) {
-      setUserData({
-        ...userData,
-        isSubmitting: false,
-        validationError: "El nombre no puede contener espacios en blanco",
-      });
-    } else if (userData.name.length < 3) {
-      setUserData({
-        ...userData,
-        isSubmitting: false,
-        validationError: "El nombre debe contener al menos 3 caracteres",
-      });
-    } else if (userData.password.length < 8) {
+    } else if (userData.newPassword.length < 8) {
       setUserData({
         ...userData,
         isSubmitting: false,
         validationError: "La contraseña debe tener más de 8 caracteres",
       });
-    } else if (userData.password !== userData.checkPassword) {
+    } else if (userData.newPassword !== userData.newCheckPassword) {
       setUserData({
         ...userData,
         isSubmitting: false,
-        validationError: "Las contraseñas no coinciden",
+        validationError: "Las nuevas contraseñas no coinciden",
       });
     } else {
       // Notify that is about to submit
@@ -76,88 +63,72 @@ const Register = () => {
         isSubmitting: true,
         validationError: null,
       });
-      // Register the user or display the API errors
+
+      //request a post petition to the /login endpoint of the API
       console.log(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/register`
+        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/updatePassword`
       );
       fetch(
-        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/register`,
+        `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/updatePassword`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: state.token,
           },
           body: JSON.stringify({
-            name: userData.name.toLowerCase(),
-            email: userData.email.toLowerCase(),
-            password: userData.password,
+            email: state.userData.email,
+            actualPassword: userData.actualPassword,
+            newPassword: userData.newPassword,
           }),
         }
       )
         .then((res) => {
-          if (res.ok || res.status === 400) {
+          if (res.ok) {
             return res.json();
           }
           throw res;
         })
-        // Print the validation error from the API
-        .then((resObject) => {
-          if (resObject.msg === undefined) {
+        .then((userData) => {
+          setUserData({
+            ...userData,
+            isSubmitting: false,
+            success: true,
+          });
+        })
+        .catch((error) => {
+          if (error.status === 400) {
             setUserData({
               ...userData,
               isSubmitting: false,
-              validationError: "Registro exitoso",
-              registered: true,
+              validationError: "Email y contraseña actual no coinciden",
             });
-            setTimeout(() => {
-              dispatch({
-                type: "LOGIN",
-                payload: resObject,
-              });
-            }, 2200);
           } else {
             setUserData({
               ...userData,
               isSubmitting: false,
-              validationError: resObject.msg,
+              validationError: "Error inesperado",
             });
+            console.log(error);
           }
-        })
-        // Catch the response & print the error message
-        .catch((err) => {
-          console.log(err);
-          setUserData({
-            ...userData,
-            isSubmitting: false,
-            validationError: "Error inesperado",
-          });
         });
     }
   };
 
-  const handleHaveAccount = () => {
+  const goBackHome = () => {
+    console.log("hey");
     dispatch({
       type: "GO_HOME",
     });
   };
 
-  return !userData.registered ? (
+  return !userData.success ? (
     <div>
       <div className="title-container title-register">
-        <h2>Registro</h2>
+        <h2>Cambiar contraseña</h2>
       </div>
 
       <form onSubmit={handleFormSubmit} id="registerForm">
-        <label className="small-text">
-          Alias
-          <input
-            type="text"
-            value={userData.name}
-            onChange={handleInputChange}
-            name="name"
-            id="name"
-          />
-        </label>
         <label className="small-text">
           Email
           <input
@@ -169,23 +140,33 @@ const Register = () => {
           />
         </label>
         <label className="small-text">
-          Contraseña
+          Contraseña actual
           <input
             type="password"
-            value={userData.password}
+            value={userData.actualPassword}
             onChange={handleInputChange}
-            name="password"
-            id="password"
+            name="actualPassword"
+            id="actualPassword"
           />
         </label>
         <label className="small-text">
-          Confirmar contraseña
+          Nueva contraseña
           <input
             type="password"
-            value={userData.checkPassword}
+            value={userData.newPassword}
             onChange={handleInputChange}
-            name="checkPassword"
-            id="checkPassword"
+            name="newPassword"
+            id="newPassword"
+          />
+        </label>
+        <label className="small-text">
+          Confirmar nueva contraseña
+          <input
+            type="password"
+            value={userData.newCheckPassword}
+            onChange={handleInputChange}
+            name="newCheckPassword"
+            id="newCheckPassword"
           />
         </label>
       </form>
@@ -195,39 +176,45 @@ const Register = () => {
 
       {/* Register button */}
       <div className="buttons-container">
-        <div className="button-container">
+        <div className="btn-changePassword-container">
           <button
             type="submit"
             form="registerForm"
             disabled={
               userData.isSubmitting ||
-              userData.name === "" ||
               userData.email === "" ||
-              userData.password === "" ||
-              userData.checkPassword === ""
+              userData.actualPassword === "" ||
+              userData.newPassword === "" ||
+              userData.newCheckPassword === ""
             }
             className={
               // If any input is "", style "disable" class.
               userData.isSubmitting ||
-              userData.name === "" ||
               userData.email === "" ||
-              userData.password === "" ||
-              userData.checkPassword === ""
+              userData.actualPassword === "" ||
+              userData.newPassword === "" ||
+              userData.newCheckPassword === ""
                 ? "disabled btn-disabled-hover"
                 : ""
             }
           >
-            {userData.isSubmitting ? "Cargando" : "Regístrate"}
+            {userData.isSubmitting ? "Cargando" : "Confirmar"}
           </button>
-          <p onClick={handleHaveAccount} className="small-text already-have-account">
-            ¿Ya tienes cuenta?
-          </p>
+          <button onClick={goBackHome} className="small-text">
+            Cancelar
+          </button>
         </div>
       </div>
     </div>
   ) : (
-    <RegisterSuccess />
+    <div className="update-password-success">
+      <h2>Cambio de contraseña exitoso</h2>
+      <RegisterSuccess variantStyle={"change-password"} />
+      <button onClick={goBackHome} className="small-text">
+        Volver
+      </button>
+    </div>
   );
 };
 
-export default Register;
+export default ChangePassword;

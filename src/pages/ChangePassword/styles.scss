@@ -1,0 +1,16 @@
+.btn-changePassword-container {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-bottom: 8px;
+  }
+}
+
+.update-password-success {
+  display: flex;
+  flex-direction: column;
+  h2 {
+    margin-top: 16px;
+  }
+}

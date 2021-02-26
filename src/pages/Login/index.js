@@ -34,6 +34,7 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault(); // Prevent default form action
 
+    console.log(userData.email);
     // Frontend validations
     if (!userData.email.includes("@")) {
       setUserData({
@@ -107,7 +108,7 @@ const Login = () => {
     <div>
       <div className="title-container main-title">
         <h2>Shoushiling</h2>
-        <h3>Piedra, papel y tijera</h3>
+        <h3>Piedra, papel o tijera</h3>
       </div>
 
       <form onSubmit={handleFormSubmit} id="loginForm">

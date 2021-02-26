@@ -33,6 +33,11 @@ const Header = () => {
     });
   };
 
+  const handleChangePasswordRedirection = () => {
+    setMenu(false);
+    dispatch({ type: "CHANGE_PASSWORD" });
+  };
+
   return (
     <>
       <header className="nav-bar">
@@ -55,7 +60,7 @@ const Header = () => {
         </div>
         {state.isAuthenticated && (
           <div className="options">
-            <h3>Cambiar contraseña</h3>
+            <h3 onClick={handleChangePasswordRedirection}>Cambiar contraseña</h3>
             <h3 onClick={() => dispatch({ type: "LOGOUT" })}>Cerrar sesión</h3>
           </div>
         )}

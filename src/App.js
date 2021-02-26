@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Pages
-import { Home, Login, Register } from "./pages";
+import { Home, Login, Register, ChangePassword } from "./pages";
 
 // Components
 import { Header, ChooseOponent, CreateMatch, Match } from "./components";
@@ -54,6 +54,7 @@ const reducer = (state, action) => {
       };
 
     case "GO_HOME":
+      console.log("hey from go_home");
       return {
         ...state,
         setPage: "Home",
@@ -69,6 +70,11 @@ const reducer = (state, action) => {
         ...state,
         setPage: "Match",
         match: action.payload,
+      };
+    case "CHANGE_PASSWORD":
+      return {
+        ...state,
+        setPage: "ChangePassword",
       };
     default:
       return state;
@@ -112,6 +118,8 @@ function App() {
                 <Match />
               ) : state.setPage === "Register" ? (
                 <Register />
+              ) : state.setPage === "ChangePassword" ? (
+                <ChangePassword />
               ) : (
                 <Home />
               )}
