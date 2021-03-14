@@ -55,8 +55,8 @@ const Header = () => {
       </header>
       <nav className={menu ? "show-nav" : undefined}>
         <div className="categories disabled">
-          <h2>Estadísticas</h2>
-          <h2>Aprende</h2>
+          <h2 className="hide-always">Estadísticas</h2>
+          <h2 className="hide-always">Aprende</h2>
         </div>
         {state.isAuthenticated && (
           <div className="options">
